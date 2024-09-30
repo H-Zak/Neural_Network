@@ -1,5 +1,7 @@
 test unitaire a faire, a apprendre
 
+faire un scheme d'un ensemble de matrice
+
 NOTION SUR:
 	- comment creer une classe (en python et en C++)
 	- comment bien creer un projet et le structurer (package necessaire, creer une environnement virtuel, comment cela fonctionne)
