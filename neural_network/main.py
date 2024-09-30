@@ -8,6 +8,7 @@ def main():
 	y = data.iloc[:, 1]
 	x_train, x_tet, y_train, y_test = train_test_split(x,y, test_size=0.2,random=42)
 	#start the creation of the neural
+	#
 
 	#start the training 
 
