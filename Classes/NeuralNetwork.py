@@ -34,11 +34,40 @@ class NeuralNetwork():
 	
 	def forward_propagation(self, data):
 		print("start forward propagation")
-		for i in range(1, len(self.layers)):
+		A = data
+		activation = [A]
+		Zs=[]
+
+		for i in range(len(self.weight)):
+			# Z = self.linear_combinaison(self.weight[i], A, self.biais[i])
+			Z = np.dot(self.weight[i], A) + self.biais
+			Zs.append(Z)
+			if i == len(self.weight) - 1 :
+				A = self.sigmoid(Z)
+			else :
+				A = self.Relu(Z)
+			activation.append(A)
+		return activation[-1], Zs, activation
+
+
+
 
 	
-	def backward_propagation():
+	def backward_propagation(self, X, Y , Zs, activation):
 		print("start backward propagation")
-
+		m = X.shape[1]
+		dW = [None] * len(self.weight)
+		db = [None] * len(self.biais)
+		dA = activation[-1] - Y 
+		for i in reversed(range(len(self.weight))):
+			if i == len(self.weight):
+				dZ = dA * self.sigmoid_derivative(Zs[i]) #il faut coder la derivative
+			else :
+				dZ = dA * self.relu_derivative(Zs[i]) # faire la fonction de la derivative de relu
+			dW[i] = 1/m * np.dot(dZ, activation[i].T)
+			db[i] = (1/m) * np.sum(dZ, axis=1, keepdims=True)
+			dA = np.dot(self.weight.T, dZ)
+	
+	
 	def loss_function():
 		print("start loss function")
