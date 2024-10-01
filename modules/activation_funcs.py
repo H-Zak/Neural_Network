@@ -15,3 +15,9 @@ def relu_derivative(x):
     # The directive of ReLU function is 1 for x > 0 and 0 for x <= 0
     return np.where(x > 0, 1, 0)
 
+def softmax(z):
+  '''Return the softmax output of a vector.'''
+  exp_z = np.exp(z)
+  sum = exp_z.sum()
+  softmax_z = np.round(exp_z/sum, 3)
+  return softmax_z
