@@ -9,7 +9,7 @@ all: install run
 
 .PHONY: run
 run:
-	$(PYTHON) -m neural_network.main
+	@$(PYTHON) -m neural_network.main
 
 # Installation des dépendances
 .PHONY: install

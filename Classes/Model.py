@@ -1,6 +1,7 @@
 import numpy as np
 from typing import List, Callable
 from Classes.NeuralNetwork import NeuralNetwork
+from sklearn.preprocessing import StandardScaler
 
 class Model():
     def __init__(self,
@@ -43,6 +44,23 @@ class Model():
         self.train_loss_history = []
         self.valid_loss_history = []
 
+    def scaling_inputs(self):
+        inputs = self.data_train[0].to_numpy()
+        scaler = StandardScaler()
+        x_scaled = scaler.fit_transform(inputs)
+        return x_scaled
+
     def train(self):
-        print(self.data_train[0].shape)
-        pass
+        inputs = self.scaling_inputs()
+        for e in range(self.epochs):
+            print(f"Epoch {e}")
+            output = self.network.feedforward(inputs)
+            print("------------Outputs --------------")
+            print(output)
+            output = self.network.activation_ft(output)
+            print(output)
+        
+        # print("-------------Zs-----------------")
+        # print(self.network.Zs)
+        # print("------------- Activations -----------------")
+        # print(self.network.activations)

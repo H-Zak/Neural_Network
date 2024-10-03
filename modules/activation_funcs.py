@@ -16,8 +16,8 @@ def relu_derivative(x):
     return np.where(x > 0, 1, 0)
 
 def softmax(z):
-  '''Return the softmax output of a vector.'''
-  exp_z = np.exp(z)
-  sum = exp_z.sum()
-  softmax_z = np.round(exp_z/sum, 3)
-  return softmax_z
+    '''Return the softmax output of a vector.'''
+    exp_z = np.exp(z)
+    sum = exp_z.sum()
+    softmax_z = np.round(exp_z/sum, 3)
+    return softmax_z
