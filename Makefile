@@ -15,7 +15,7 @@ $(VENV)/bin/activate: requirement.txt
 	python3 -m venv $(VENV)
 	$(PIP) install --upgrade pip
 	$(PIP) install -r requirement.txt
-	@touch $(VENV)/bin/activate
+
 
 # Exécuter les tests
 .PHONY: test

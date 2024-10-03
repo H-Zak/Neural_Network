@@ -1,7 +1,7 @@
 import numpy as np
 
 class NeuralNetwork():
-	def __init__(self, layers):
+	def __init__(self, layers): #layers = [1,10,10,1]
 		print("Start Class NeuralNetork")
 		# Iniatialise un reseau de neurones.
 		# :param layers : liste contenant le nombre de neuronnes dans chaque layers
@@ -18,7 +18,6 @@ class NeuralNetwork():
 		self.costs = []
 
 	def initialise_value(self):
-
 		for i in range(1, len(self.layers)):
 			weight_matrix = np.random.randn(self.layers[i], self.layers[i - 1])
 			biais_matrix = np.zeros((self.layers[i], 1))
@@ -71,7 +70,7 @@ class NeuralNetwork():
 			if i == len(self.weight) - 1:
 				dZ = dA * self.sigmoid_derivative(Zs[i])
 			else :
-				dZ = dA * self.relu_derivative(Zs[i]) # faire la fonction de la derivative de relu
+				dZ = dA * self.relu_derivative(Zs[i])
 			dW[i] = 1/m * np.dot(dZ, activation[i].T) #la derive de A est dans la derive de Z
 			db[i] = (1/m) * np.sum(dZ, axis=1, keepdims=True)
 			if i > 0:
@@ -145,5 +144,6 @@ class NeuralNetwork():
 	def predict(self, X):
 		activations, _, __ = self.forward_propagation(X)
 		predictions = activations[-1] > 0.5  # Seuil pour la classification binaire
+		print(predictions)
 		return predictions.astype(int)
 

@@ -31,13 +31,15 @@ def main():
 
 	n_x = x_train.shape[0]
 
+	n = int(x_train.shape[1])
+
 
 
 
 	#start the creation of the neural
-	neuronne = NeuralNetwork(layers=[n_x,20,20,1])
-	neuronne.train_mini_batch(x_train,y_train, 20000, 0.01, 128)
-	# neuronne.train(x_train,y_train, 20000, 0.01)
+	neuronne = NeuralNetwork(layers=[n_x,32,32, 1])
+	neuronne.train_mini_batch(x_train,y_train, 150000, 0.1, 128)
+	# neuronne.train(x_train,y_train, 150000, 0.01)
 
 	# Prédictions sur l'ensemble de test
 	y_pred_test = neuronne.predict(x_test)
@@ -46,6 +48,7 @@ def main():
 	y_pred_train = neuronne.predict(x_train)
 
 	#start the training 
+	print(y_test)
 	accuracy_test = np.mean(y_pred_test == y_test) * 100
 	print(f"Précision sur l'ensemble de test : {accuracy_test}%")
 
