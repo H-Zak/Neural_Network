@@ -6,3 +6,9 @@ NOTION SUR:
 	- comment creer une classe (en python et en C++)
 	- comment bien creer un projet et le structurer (package necessaire, creer une environnement virtuel, comment cela fonctionne)
 	- comment faire des tests unitaire
+
+
+un meilleur interface que le terminal est il possible ?
+
+
+verifier que la taille du batch n'est pas superieur a l'echantillon

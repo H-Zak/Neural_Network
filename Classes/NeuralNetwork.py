@@ -16,8 +16,12 @@ class NeuralNetwork():
 		self.biais = []
 		self.initialise_value()
 		self.costs = []
+		self.validation_cost = []
+		self.pred_test = []
+		self.pred_train = []
 
 	def initialise_value(self):
+		print("initialize !!!")
 		for i in range(1, len(self.layers)):
 			weight_matrix = np.random.randn(self.layers[i], self.layers[i - 1])
 			biais_matrix = np.zeros((self.layers[i], 1))
@@ -78,7 +82,19 @@ class NeuralNetwork():
 			self.weight[i] = self.weight[i] - alpha * dW[i]
 			self.biais[i] = self.biais[i] - alpha * db[i]
 	
-	def train(self, X, Y, num_epochs, learning_rate):
+	def prediction_list(self, x_test, y_test, X, Y):
+		# Prédictions sur l'ensemble de test
+			y_pred_test = self.predict(x_test)
+			accuracy_test = np.mean(y_pred_test == y_test) * 100
+			self.pred_test.append(accuracy_test)
+
+			# Prédictions sur l'ensemble d'entraînement (optionnel)
+			y_pred_train = self.predict(X)
+			accuracy_train = np.mean(y_pred_train == Y) * 100
+			self.pred_train.append(accuracy_train)
+
+	
+	def train(self, X, Y, num_epochs, learning_rate, x_test, y_test):
 		if not hasattr(self, 'weight') or not hasattr(self, 'biais'):
 			self.initialize_parameters()
 		
@@ -86,10 +102,14 @@ class NeuralNetwork():
 			output, Zs, activation = self.forward_propagation(X)
 
 			cost = self.compute_cost(output, Y)
+			validation_cost = self.function_valid_cost(x_test, y_test)
+			self.prediction_list(x_test, y_test, X , Y)
+
 			self.backward_propagation(X, Y, Zs, activation, learning_rate)
 
 			if epoch % 100 == 0 :
 				self.costs.append(cost)
+				self.validation_cost.append(validation_cost)
 				print(f"Coût après l'époque {epoch}: {cost}")
 		return self.costs
 	
@@ -113,7 +133,7 @@ class NeuralNetwork():
 
 		return mini_batches
 	
-	def train_mini_batch(self, X, Y, num_epochs, learning_rate, mini_batch_size):
+	def train_mini_batch(self, X, Y, num_epochs, learning_rate, mini_batch_size,x_test, y_test):
 		if not hasattr(self, 'weight') or not hasattr(self, 'biais'):
 			self.initialize_parameters()
 		
@@ -124,10 +144,13 @@ class NeuralNetwork():
 				output, Zs, activation = self.forward_propagation(mini_batch_X)
 
 				cost = self.compute_cost(output, mini_batch_Y)
+				validation_cost = self.function_valid_cost(x_test, y_test)
+				self.prediction_list(x_test, y_test, X , Y)
 				self.backward_propagation(mini_batch_X, mini_batch_Y, Zs, activation, learning_rate)
 
 			if epoch % 100 == 0 :
 				self.costs.append(cost)
+				self.validation_cost.append(validation_cost)
 				print(f"Coût après l'époque {epoch}: {cost}")
 		return self.costs
 	
@@ -144,6 +167,12 @@ class NeuralNetwork():
 	def predict(self, X):
 		activations, _, __ = self.forward_propagation(X)
 		predictions = activations[-1] > 0.5  # Seuil pour la classification binaire
-		print(predictions)
 		return predictions.astype(int)
+	
+	def function_valid_cost(self, x_test, y_test):
+		output, Zs, activation = self.forward_propagation(x_test)
+		valid_cost = self.compute_cost(output, y_test)
+		return valid_cost
+
+
 

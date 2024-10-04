@@ -1,0 +1,14 @@
+[
+    {
+        "epochs": 10000,
+        "learning_rate": 0.01,
+        "batch_size": 0,
+        "layers": [
+            31,
+            1
+        ],
+        "accuracy": 95.6140350877193,
+        "costs": 0.156423,
+        "validation_cost": 0.124792
+    }
+]
