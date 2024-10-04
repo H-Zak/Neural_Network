@@ -29,12 +29,14 @@ def main():
 		# x_test = x_remaining.iloc[:2]
 		# y_test = y_remaining.iloc[:2]
 
-		# print(x_train)
+		print("---- Initial input -------")
+		print(x_train)
+		print("--------------------------")
 		# print(y_train)
 		# Splitting data
 		# x_train, x_test, y_train, y_test = train_test_split(x,y, test_size=0.2, random_state=42)
 		# shape[1] -> Number of characteristics for each example
-		neural_network = NeuralNetwork(input_shape=x_train.shape[1], hidden_layers=[3, 3], output_shape=2)
+		neural_network = NeuralNetwork(input_shape=x_train.shape[1], hidden_layers=[3], output_shape=1)
 		# Initialize model
 		model = Model(network=neural_network, 
                       data_train=(x_train, y_train),

@@ -42,16 +42,27 @@ class NeuralNetwork():
             # print(f"A (Layer {i + 1}): {A}")
             self.Zs.append(Z)
             self.activations.append(A)
+
+        print(len(self.activations))
+        print(len(self.Zs))
         return A
     
-    def backpropagation(self, outputs, y):
-        # Creating array of zeros as output shape
-        y_true = np.zeros_like(outputs)
-        # Updating y_true to contain a 1 in the position corresponding to the correct class for each entry in outputs
-        y_true[range(len(outputs)), y] = 1
-        # Derivative of softmax
-        dA = outputs - y_true
+    def backpropagation(self, outputs, Y):
+        # print("--------- Outputs ------------")
+        # print(outputs)
+        # print("--------- Y ------------")
+        # print(Y)
+        dA = outputs - Y
         for idx in reversed(range(0, len(self.layers), 1)):
+            # print(idx)
             # dL/dZ=dL/dA⋅softmax′(Z)
             dZ = dA - self.layers[idx].derivative_activation_ft(self.Zs[idx])
+            # print("-------------- dZs -----------------")
+            # print(dZ)
+            print(f"----------- Activations layer {idx} ----------------")
+            print(self.activations[idx])
+            # if idx > 0:
+            #     input_to_layer = self.layers[idx - 1].A
+            # else:
+            #     input_to_layer = self.inputs
 

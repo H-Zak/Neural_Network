@@ -4,22 +4,32 @@ from abc import ABC, abstractmethod
 
 class Layer(ABC):
     @abstractmethod
-    def __init__(self, count_neurons):
-        self.bias = np.zeros(count_neurons)
+    def __init__(self, input_shape, number_of_neurons):
+        self.bias = np.zeros(number_of_neurons)
+        self.weights = np.random.randn(input_shape, number_of_neurons)
+
+    # def call(self, inputs):
+    #     Z = np.dot(inputs, self.weights) + self.bias
+    #     A = self.activation_ft(Z)
+    #     return A, Z
     
-    def update_weights(self):
+    @abstractmethod
+    def activation_ft(self, x):
+        pass
+
+    @abstractmethod
+    def derivative_activation_ft(self, output):
         pass
 
 class HiddenLayer(Layer):
     def __init__(self, input_shape, number_of_neurons):
-        super().__init__(number_of_neurons)
+        super().__init__(input_shape, number_of_neurons)
         
-        # Randow weights
-        self.weights = np.random.randn(input_shape, number_of_neurons)
-
     def call(self, inputs):
         Z = np.dot(inputs, self.weights) + self.bias
         A = self.activation_ft(Z)
+        print(f"----------- Activations Hidden Layer ----------------")
+        print(A)
         return A, Z
 
     # reLU function
@@ -33,29 +43,22 @@ class HiddenLayer(Layer):
 
 class OutputLayer(Layer):
     def __init__(self, input_shape, number_of_neurons):
-        super().__init__(number_of_neurons)
-        
-        # Randow weights
-        self.weights = np.random.randn(input_shape, number_of_neurons)
+        super().__init__(input_shape, number_of_neurons)
 
     def call(self, inputs):
         Z = np.dot(inputs, self.weights) + self.bias
-        print(Z)
-        print("-----------------------------------------")
         A = self.activation_ft(Z)
+        print(f"----------- Activations Output layer ----------------")
+        print(A)
         return A, Z
 
-    # Softmax function
     def activation_ft(self, x):
-        exp_x = np.exp(x - np.max(x, axis=1, keepdims=True))
-        return exp_x / np.sum(exp_x, axis=1, keepdims=True)
-    
-    # Softmax derivative
-    def derivative_activation_ft(output):
-        s = output.reshape(-1, 1)
-        return np.diagflat(s) - np.dot(s, s.T)
+        return 1 / (1 + np.exp(-x))
 
-    # def sigmoid_derivative(self, x):
-    #     # The derivative of sigmoid function: σ'(x) = σ(x) * (1 - σ(x))
-    #     sig = self.sigmoid(x)
-    #     return sig * (1 - sig)
+    # def derivative_activation_ft(self, output):
+    #     return output * (1 - output)
+
+    def derivative_activation_ft(self, output):
+        # The derivative of sigmoid function: σ'(x) = σ(x) * (1 - σ(x))
+        sig = self.activation_ft(output)
+        return sig * (1 - sig)

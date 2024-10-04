@@ -30,6 +30,9 @@ class Model():
         self.network = network
         
         # Training and validation data
+        self.x_train = data_train[0]
+        self.y_train = data_train[1].reshape(1, -1)
+    
         self.data_train = data_train
         self.data_valid = data_valid
         
@@ -54,12 +57,15 @@ class Model():
     def train(self):
         inputs = self.scaling_inputs()
         for e in range(self.epochs):
-            # Outputs of softmax function
+            print("-------------- Feedforward -----------------")
             outputs = self.network.feedforward(inputs)
-            correct_class_probs = outputs[range(len(outputs)), self.data_train[1]]
-            cost = self.loss_function(self.data_train[1], correct_class_probs)
-            print(f"epoch {e+1}/{self.epochs} - loss: {cost} - val_loss: {0}")
-            self.network.backpropagation(outputs, self.data_train[1])
+            # correct_class_probs = outputs[range(len(outputs)), self.data_train[1]]
+            # cost = self.loss_function(self.data_train[1], outputs)
+            # print(f"epoch {e+1}/{self.epochs} - loss: {cost} - val_loss: {0}")
+            print('-------------- Output        -------------------')
+            print(outputs)
+            print("-------------- Backpropagation -----------------")
+            self.network.backpropagation(outputs, self.y_train)
         
         # print("-------------Zs-----------------")
         # print(self.network.Zs)
