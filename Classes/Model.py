@@ -2,6 +2,7 @@ import numpy as np
 from typing import List, Callable
 from Classes.NeuralNetwork import NeuralNetwork
 from sklearn.preprocessing import StandardScaler
+from modules.loss_function import binary_cross_entropy
 
 class Model():
     def __init__(self,
@@ -53,12 +54,12 @@ class Model():
     def train(self):
         inputs = self.scaling_inputs()
         for e in range(self.epochs):
-            print(f"Epoch {e}")
-            output = self.network.feedforward(inputs)
-            print("------------Outputs --------------")
-            print(output)
-            output = self.network.activation_ft(output)
-            print(output)
+            # Outputs of softmax function
+            outputs = self.network.feedforward(inputs)
+            correct_class_probs = outputs[range(len(outputs)), self.data_train[1]]
+            cost = self.loss_function(self.data_train[1], correct_class_probs)
+            print(f"epoch {e+1}/{self.epochs} - loss: {cost} - val_loss: {0}")
+            self.network.backpropagation(outputs, self.data_train[1])
         
         # print("-------------Zs-----------------")
         # print(self.network.Zs)

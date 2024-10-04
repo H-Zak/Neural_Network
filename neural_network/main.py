@@ -4,8 +4,6 @@ import pandas as pd
 # Classes imports
 from Classes.Model import Model
 from Classes.NeuralNetwork import NeuralNetwork
-# Activation functions imports
-from modules.activation_funcs import sigmoid, relu
 # Loss function
 from modules.loss_function import binary_cross_entropy
 
@@ -13,29 +11,34 @@ def main():
 	try:
 		data =  pd.read_csv("./dataset/data_test.csv", header=None)
 
-		# Splitting data manually
-		x = data.drop(data.columns[1], axis=1)
-		x = x.iloc[:,1:]
-		y = data.iloc[:, 1]
+		# # Splitting data manually
+		# x = data.drop(data.columns[1], axis=1)
+		
+		x_train = data.iloc[:,2:]
+		y_train = data.iloc[:, 1].map({'M' : 1, 'B' : 0}).to_numpy()
 
-		x_train = x.iloc[[0, 1]]
-		y_train = y.iloc[[0, 1]]
+		# print(x)
+		# print(y)
 
-		x_remaining = x.drop(x_train.index)
-		y_remaining = y.drop(y_train.index)
+		# x_train = x.iloc[[0, 1]]
+		# y_train = y.iloc[[0, 1]]
 
-		x_test = x_remaining.iloc[:2]
-		y_test = y_remaining.iloc[:2]
+		# x_remaining = x.drop(x_train.index)
+		# y_remaining = y.drop(y_train.index)
 
-		# # Splitting data
+		# x_test = x_remaining.iloc[:2]
+		# y_test = y_remaining.iloc[:2]
+
+		# print(x_train)
+		# print(y_train)
+		# Splitting data
 		# x_train, x_test, y_train, y_test = train_test_split(x,y, test_size=0.2, random_state=42)
 		# shape[1] -> Number of characteristics for each example
-		neural_network = NeuralNetwork(x_train.shape[1], [2, 1], sigmoid)
-
+		neural_network = NeuralNetwork(input_shape=x_train.shape[1], hidden_layers=[3, 3], output_shape=2)
 		# Initialize model
 		model = Model(network=neural_network, 
                       data_train=(x_train, y_train),
-                      data_valid=(x_test, y_test),
+                      data_valid=([], []),
                       loss_function=binary_cross_entropy, 
                       learning_rate=0.001, 
                       batch_size=2,

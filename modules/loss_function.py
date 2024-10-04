@@ -14,7 +14,6 @@ def binary_cross_entropy(predicted_values: np.ndarray, real_values: np.ndarray) 
     Returns:
     float: The binary cross-entropy loss.
     """
-
     # Add an optional check to make sure that the predicted_values and actual_values dimensions match.
     assert predicted_values.shape == real_values.shape, "Shape mismatch between predicted and real values."
 
