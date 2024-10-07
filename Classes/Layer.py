@@ -7,14 +7,14 @@ class Layer(ABC):
     def __init__(self, input_shape, number_of_neurons, layer_type : str):
 
         if layer_type == 'hidden':
-            self.weights = [[ 0.14076115, -2.41981209, 0.55102647],
-                            [-0.36529239, 1.31068408, -0.68787999],
-                            [0.86925469 , 0.97239308, -0.6711646]]
+            self.weights = np.array([[ 0.14076115, -2.41981209, 0.55102647],
+                                    [-0.36529239, 1.31068408, -0.68787999]])
         elif layer_type == 'output':
-
+            self.weights =  np.array([[-0.50108095],
+                                     [-1.82787485],
+                                     [-0.19651201]])
         self.bias = np.zeros(number_of_neurons)
         # self.weights = np.random.randn(input_shape, number_of_neurons)
-
     # def call(self, inputs):
     #     Z = np.dot(inputs, self.weights) + self.bias
     #     A = self.activation_ft(Z)
@@ -29,14 +29,14 @@ class Layer(ABC):
         pass
 
 class HiddenLayer(Layer):
-    def __init__(self, input_shape, number_of_neurons):
-        super().__init__(input_shape, number_of_neurons)
+    def __init__(self, input_shape, number_of_neurons, layer_type : str):
+        super().__init__(input_shape, number_of_neurons, layer_type)
         
     def call(self, inputs):
         Z = np.dot(inputs, self.weights) + self.bias
         A = self.activation_ft(Z)
-        print(f"----------- Activations Hidden Layer ----------------")
-        print(A)
+        # print(f"----------- Activations Hidden Layer ----------------")
+        # print(A)
         return A, Z
 
     # reLU function
@@ -49,14 +49,14 @@ class HiddenLayer(Layer):
         return np.where(x > 0, 1, 0)
 
 class OutputLayer(Layer):
-    def __init__(self, input_shape, number_of_neurons):
-        super().__init__(input_shape, number_of_neurons)
+    def __init__(self, input_shape, number_of_neurons, layer_type : str):
+        super().__init__(input_shape, number_of_neurons, layer_type)
 
     def call(self, inputs):
         Z = np.dot(inputs, self.weights) + self.bias
         A = self.activation_ft(Z)
-        print(f"----------- Activations Output layer ----------------")
-        print(A)
+        # print(f"----------- Activations Output layer ----------------")
+        # print(A)
         return A, Z
 
     def activation_ft(self, x):

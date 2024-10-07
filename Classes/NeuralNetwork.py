@@ -14,20 +14,20 @@ class NeuralNetwork():
 
         for i, layer_size in enumerate(hidden_layers):
             # print(f"Hidden layer of {layer_size} neurons")
-            self.layers.append(HiddenLayer(prev_shape, layer_size))
+            self.layers.append(HiddenLayer(prev_shape, layer_size, 'hidden'))
             prev_shape = layer_size 
 
-            print("Weights:")
-            print(self.layers[i].weights)
-            print("Bias:")
-            print(self.layers[i].bias)
+            # print("Weights:")
+            # print(self.layers[i].weights)
+            # print("Bias:")
+            # print(self.layers[i].bias)
 
         # print(f"Output layer of {output_shape} neurons")
-        self.layers.append(OutputLayer(prev_shape, output_shape))
-        print("Weights (output layer):")
-        print(self.layers[-1].weights)
-        print("Bias (output layer):")
-        print(self.layers[-1].bias)
+        self.layers.append(OutputLayer(prev_shape, output_shape, 'output'))
+        # print("Weights (output layer):")
+        # print(self.layers[-1].weights)
+        # print("Bias (output layer):")
+        # print(self.layers[-1].bias)
     
     def feedforward(self, inputs):
         self.activations = []
@@ -42,33 +42,35 @@ class NeuralNetwork():
             # print(f"A (Layer {i + 1}): {A}")
             self.Zs.append(Z)
             self.activations.append(A)
-
-        print(len(self.activations))
-        print(len(self.Zs))
         return A
     
-    def backpropagation(self, outputs, Y):
+    def backpropagation(self, inputs, outputs, Y, learning_rate):
+        m = inputs.shape[1]
+        # print(m)
+
+        dW = [None] * len(self.layers)
+        db = [None] * len(self.layers)
         # print("--------- Outputs ------------")
         # print(outputs)
         # print("--------- Y ------------")
         # print(Y)
         dA = outputs - Y
         for idx in reversed(range(0, len(self.layers), 1)):
-            # print(idx)
             # dL/dZ=dL/dA⋅softmax′(Z)
             dZ = dA * self.layers[idx].derivative_activation_ft(self.Zs[idx])
             # print("-------------- dZs -----------------")
             # print(dZ)
-            print(f"----------- Activations layer {idx} ----------------")
-            print(self.activations[idx])
+            # print(f"----------- Activations layer {idx} ----------------")
+            # print(self.activations[idx])
             # Compute of the gradient with respect to the weights (dW)
-            dW = np.dot(self.activations[idx-1].T, dZ)
+            dW[idx] = np.dot(self.activations[idx].T, dZ)
             # Compute of the gradient with respect to the bias (db)
-            db = np.sum(dZ, axis=0, keepdims=True)
+            db[idx] = np.sum(dZ, axis=0, keepdims=True)
+            if idx > 0:
+                dA = np.dot(self.layers[idx].weights.T, dZ)
 
+            self.layers[idx].weights = self.layers[idx].weights - learning_rate * dW[idx]
+            self.layers[idx].bias = self.layers[idx].bias - learning_rate * db[idx]
+            
 
-            # if idx > 0:
-            #     input_to_layer = self.layers[idx - 1].A
-            # else:
-            #     input_to_layer = self.inputs
 
