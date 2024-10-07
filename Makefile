@@ -5,7 +5,11 @@ PIP = $(VENV)/bin/pip
 
 # Cible par défaut
 .PHONY: all
-all: install run
+all: install lab
+
+.PHONY: lab
+lab:
+	@$(PYTHON) -m lab.main
 
 .PHONY: run
 run:

@@ -17,17 +17,17 @@ class NeuralNetwork():
             self.layers.append(HiddenLayer(prev_shape, layer_size))
             prev_shape = layer_size 
 
-        #     print("Weights:")
-        #     print(self.layers[i].weights)
-        #     print("Bias:")
-        #     print(self.layers[i].bias)
+            print("Weights:")
+            print(self.layers[i].weights)
+            print("Bias:")
+            print(self.layers[i].bias)
 
         # print(f"Output layer of {output_shape} neurons")
         self.layers.append(OutputLayer(prev_shape, output_shape))
-        # print("Weights (output layer):")
-        # print(self.layers[-1].weights)
-        # print("Bias (output layer):")
-        # print(self.layers[-1].bias)
+        print("Weights (output layer):")
+        print(self.layers[-1].weights)
+        print("Bias (output layer):")
+        print(self.layers[-1].bias)
     
     def feedforward(self, inputs):
         self.activations = []
@@ -56,11 +56,17 @@ class NeuralNetwork():
         for idx in reversed(range(0, len(self.layers), 1)):
             # print(idx)
             # dL/dZ=dL/dA⋅softmax′(Z)
-            dZ = dA - self.layers[idx].derivative_activation_ft(self.Zs[idx])
+            dZ = dA * self.layers[idx].derivative_activation_ft(self.Zs[idx])
             # print("-------------- dZs -----------------")
             # print(dZ)
             print(f"----------- Activations layer {idx} ----------------")
             print(self.activations[idx])
+            # Compute of the gradient with respect to the weights (dW)
+            dW = np.dot(self.activations[idx-1].T, dZ)
+            # Compute of the gradient with respect to the bias (db)
+            db = np.sum(dZ, axis=0, keepdims=True)
+
+
             # if idx > 0:
             #     input_to_layer = self.layers[idx - 1].A
             # else:
