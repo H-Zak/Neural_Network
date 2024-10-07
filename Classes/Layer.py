@@ -4,9 +4,16 @@ from abc import ABC, abstractmethod
 
 class Layer(ABC):
     @abstractmethod
-    def __init__(self, input_shape, number_of_neurons):
+    def __init__(self, input_shape, number_of_neurons, layer_type : str):
+
+        if layer_type == 'hidden':
+            self.weights = [[ 0.14076115, -2.41981209, 0.55102647],
+                            [-0.36529239, 1.31068408, -0.68787999],
+                            [0.86925469 , 0.97239308, -0.6711646]]
+        elif layer_type == 'output':
+
         self.bias = np.zeros(number_of_neurons)
-        self.weights = np.random.randn(input_shape, number_of_neurons)
+        # self.weights = np.random.randn(input_shape, number_of_neurons)
 
     # def call(self, inputs):
     #     Z = np.dot(inputs, self.weights) + self.bias
