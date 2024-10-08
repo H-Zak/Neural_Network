@@ -31,8 +31,10 @@ class Model():
         
         # Training and validation data
         self.x_train = data_train[0]
-        self.y_train = data_train[1].reshape(1, -1)
-    
+        # self.y_train = data_train[1].reshape(1, -1)
+        self.y_train = data_train[1]
+
+
         self.data_train = data_train
         self.data_valid = data_valid
         

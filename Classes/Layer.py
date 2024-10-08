@@ -34,9 +34,11 @@ class HiddenLayer(Layer):
         
     def call(self, inputs):
         Z = np.dot(inputs, self.weights) + self.bias
+        print(f"------------ Zs  hidden layer ------------------------")
+        print(Z)
         A = self.activation_ft(Z)
-        # print(f"----------- Activations Hidden Layer ----------------")
-        # print(A)
+        print(f"----------- Activations  Hidden Layer ----------------")
+        print(A)
         return A, Z
 
     # reLU function
@@ -45,6 +47,7 @@ class HiddenLayer(Layer):
 
     # reLU derivative
     def derivative_activation_ft(self, x):
+        print("reLU derivative")
         # The directive of ReLU function is 1 for x > 0 and 0 for x <= 0
         return np.where(x > 0, 1, 0)
 
@@ -53,12 +56,17 @@ class OutputLayer(Layer):
         super().__init__(input_shape, number_of_neurons, layer_type)
 
     def call(self, inputs):
+        print(inputs)
+        print(self.weights)
         Z = np.dot(inputs, self.weights) + self.bias
+        print(f"------------ Zs  Output layer ------------------------")
+        print(Z)
         A = self.activation_ft(Z)
-        # print(f"----------- Activations Output layer ----------------")
-        # print(A)
+        print(f"----------- Activations  Output layer ----------------")
+        print(A)
         return A, Z
 
+    # Sigmoid
     def activation_ft(self, x):
         return 1 / (1 + np.exp(-x))
 
@@ -66,6 +74,7 @@ class OutputLayer(Layer):
     #     return output * (1 - output)
 
     def derivative_activation_ft(self, output):
+        # print("Sigmoid derivative")
         # The derivative of sigmoid function: σ'(x) = σ(x) * (1 - σ(x))
         sig = self.activation_ft(output)
         return sig * (1 - sig)
