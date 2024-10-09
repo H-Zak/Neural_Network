@@ -7,6 +7,9 @@ PIP = $(VENV)/bin/pip
 .PHONY: all
 all: install lab
 
+.PHONY: re
+re: clean-env all
+
 .PHONY: lab
 lab:
 	@$(PYTHON) -m lab.main

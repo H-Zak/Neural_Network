@@ -14,7 +14,7 @@ def main():
 
 		# Splitting data manually
 		
-		x_train = data.iloc[:,2:4]
+		x_train = data.iloc[:,2:4].T
 		y_train = data.iloc[:, 1].map({'M' : 1, 'B' : 0}).to_numpy()
 
 		# print(x)
@@ -30,6 +30,9 @@ def main():
 		# y_test = y_remaining.iloc[:2]
 
 		print("---- Initial input shape -------")
+		print(x_train)
+		print("--------------------------")
+		print("---- Initial input shape -------")
 		print(x_train.shape)
 		print("--------------------------")
 
@@ -42,7 +45,7 @@ def main():
                       loss_function=binary_cross_entropy, 
                       learning_rate=0.1, 
                       batch_size=2,
-                      epochs=1000)
+                      epochs=1)
 		# Start the training
 		model.train()
 	except ValueError as e:
