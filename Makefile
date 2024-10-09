@@ -5,7 +5,7 @@ PIP = $(VENV)/bin/pip
 
 # Cible par défaut
 .PHONY: all
-all: install lab
+all: install run
 
 .PHONY: re
 re: clean-env all

@@ -1,8 +1,6 @@
 import numpy as np
 from typing import List, Callable
 from Classes.NeuralNetwork import NeuralNetwork
-from sklearn.preprocessing import StandardScaler
-# from modules.loss_function import binary_cross_entropy
 
 class Model():
     def __init__(self,
@@ -31,9 +29,7 @@ class Model():
         
         # Training and validation data
         self.x_train = data_train[0]
-        self.y_train = data_train[1].reshape(1, -1)
-        # self.y_train = data_train[1]
-
+        self.y_train = data_train[1]
 
         self.data_train = data_train
         self.data_valid = data_valid
@@ -50,31 +46,44 @@ class Model():
         self.train_loss_history = []
         self.valid_loss_history = []
 
-    def scaling_inputs(self):
-        inputs = self.data_train[0].to_numpy()
-        scaler = StandardScaler()
-        x_scaled = scaler.fit_transform(inputs)
-        return x_scaled
+    # def train(self):
+    #     inputs =  self.x_train
+    #     tolerance : float = 1e-8
+    #     for e in range(self.epochs):
+    #         outputs = self.network.feedforward(inputs)
+    #         cost = self.loss_function(self.y_train, outputs)
+    #         if e % 100 == 0:
+    #             self.train_loss_history.append(cost)
+    #         print(f"epoch {e+1}/{self.epochs} - loss: {cost:2.4f} - val_loss: {0}")
+    #         self.network.backpropagation(inputs, outputs, self.y_train, self.learning_rate)
 
     def train(self):
-        inputs = self.scaling_inputs()
-        tolerance : float = 1e-8
-        for e in range(self.epochs):
-            # print("-------------- Feedforward -----------------")
-            outputs = self.network.feedforward(inputs)
-            cost = self.loss_function(self.y_train, outputs)
-            if e % 100 == 0:
-                self.train_loss_history.append(cost)
-            # if abs(e - self.train_loss_history[-1]) < tolerance:
-            #     break
-            print(f"epoch {e+1}/{self.epochs} - loss: {cost:2.4f} - val_loss: {0}")
-            # print('-------------- Outputs  -------------------')
-            # print(outputs)
-            # print("-------------- Backpropagation -----------------")
-            self.network.backpropagation(inputs, outputs, self.y_train, self.learning_rate)
-            # e += 1
+        inputs = self.x_train
+
+        print(inputs.shape)
+        tolerance: float = 1e-8
+        count_training_examples = inputs.shape[1]
         
-        # print("-------------Zs-----------------")
-        # print(self.network.Zs)
-        # print("------------- Activations -----------------")
-        # print(self.network.activations)
+        for e in range(self.epochs):
+            indices = np.random.permutation(count_training_examples)
+            for start in range(0, count_training_examples, self.batch_size):
+                end = start + self.batch_size
+                batch_indices = indices[start:end]
+
+                x_batch = self.x_train[:, batch_indices]
+                y_batch = self.y_train[:, batch_indices]
+
+                # print(x_batch)
+
+                # print(y_batch)
+
+                outputs = self.network.feedforward(x_batch)
+
+                cost = self.loss_function(y_batch, outputs)
+
+                self.network.backpropagation(x_batch, outputs, y_batch, self.learning_rate)
+
+                if e % 100 == 0 and e == 0:
+                    self.train_loss_history.append(cost)
+
+            print(f"epoch {e+1}/{self.epochs} - loss: {cost:2.4f} - val_loss: {0}")
