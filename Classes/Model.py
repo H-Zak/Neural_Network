@@ -31,8 +31,8 @@ class Model():
         
         # Training and validation data
         self.x_train = data_train[0]
-        # self.y_train = data_train[1].reshape(1, -1)
-        self.y_train = data_train[1]
+        self.y_train = data_train[1].reshape(1, -1)
+        # self.y_train = data_train[1]
 
 
         self.data_train = data_train
@@ -58,18 +58,21 @@ class Model():
 
     def train(self):
         inputs = self.scaling_inputs()
+        tolerance : float = 1e-8
         for e in range(self.epochs):
             # print("-------------- Feedforward -----------------")
             outputs = self.network.feedforward(inputs)
-
-            # print(outputs)
-            self.y_train = self.y_train.reshape(-1, 1)
             cost = self.loss_function(self.y_train, outputs)
-            print(f"epoch {e+1}/{self.epochs} - loss: {cost} - val_loss: {0}")
-            # print('-------------- Output        -------------------')
+            if e % 100 == 0:
+                self.train_loss_history.append(cost)
+            # if abs(e - self.train_loss_history[-1]) < tolerance:
+            #     break
+            print(f"epoch {e+1}/{self.epochs} - loss: {cost:2.4f} - val_loss: {0}")
+            # print('-------------- Outputs  -------------------')
             # print(outputs)
             # print("-------------- Backpropagation -----------------")
             self.network.backpropagation(inputs, outputs, self.y_train, self.learning_rate)
+            # e += 1
         
         # print("-------------Zs-----------------")
         # print(self.network.Zs)
