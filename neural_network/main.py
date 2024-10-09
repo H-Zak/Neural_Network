@@ -14,7 +14,7 @@ def main():
 		# # Splitting data manually
 		# x = data.drop(data.columns[1], axis=1)
 		
-		x_train = data.iloc[:,2:]
+		x_train = data.iloc[:,2:4]
 		y_train = data.iloc[:, 1].map({'M' : 1, 'B' : 0}).to_numpy()
 
 		# print(x)

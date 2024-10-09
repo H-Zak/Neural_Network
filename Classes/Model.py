@@ -2,7 +2,7 @@ import numpy as np
 from typing import List, Callable
 from Classes.NeuralNetwork import NeuralNetwork
 from sklearn.preprocessing import StandardScaler
-from modules.loss_function import binary_cross_entropy
+# from modules.loss_function import binary_cross_entropy
 
 class Model():
     def __init__(self,
@@ -20,7 +20,7 @@ class Model():
         network (NeuralNetwork): The neural network architecture.
         data_train (np.ndarray): Training data as a numpy array.
         data_valid (np.ndarray): Validation data as a numpy array.
-        loss_function (Callable): Loss function to be used during training.
+        # loss_function (Callable): Loss function to be used during training.
         learning_rate (float): Learning rate for optimization. Default is 0.001.
         batch_size (int): Number of training examples per batch. Default is 2.
         epochs (int): Number of training iterations over the entire dataset. Default is 5000.
@@ -32,7 +32,9 @@ class Model():
         # Training and validation data
         self.x_train = data_train[0]
         self.y_train = data_train[1].reshape(1, -1)
-    
+        # self.y_train = data_train[1]
+
+
         self.data_train = data_train
         self.data_valid = data_valid
         
@@ -56,16 +58,21 @@ class Model():
 
     def train(self):
         inputs = self.scaling_inputs()
+        tolerance : float = 1e-8
         for e in range(self.epochs):
-            print("-------------- Feedforward -----------------")
+            # print("-------------- Feedforward -----------------")
             outputs = self.network.feedforward(inputs)
-            # correct_class_probs = outputs[range(len(outputs)), self.data_train[1]]
-            # cost = self.loss_function(self.data_train[1], outputs)
-            # print(f"epoch {e+1}/{self.epochs} - loss: {cost} - val_loss: {0}")
-            print('-------------- Output        -------------------')
-            print(outputs)
-            print("-------------- Backpropagation -----------------")
-            self.network.backpropagation(outputs, self.y_train)
+            cost = self.loss_function(self.y_train, outputs)
+            if e % 100 == 0:
+                self.train_loss_history.append(cost)
+            # if abs(e - self.train_loss_history[-1]) < tolerance:
+            #     break
+            print(f"epoch {e+1}/{self.epochs} - loss: {cost:2.4f} - val_loss: {0}")
+            # print('-------------- Outputs  -------------------')
+            # print(outputs)
+            # print("-------------- Backpropagation -----------------")
+            self.network.backpropagation(inputs, outputs, self.y_train, self.learning_rate)
+            # e += 1
         
         # print("-------------Zs-----------------")
         # print(self.network.Zs)
