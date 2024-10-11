@@ -59,31 +59,34 @@ class Model():
 
     def train(self):
         inputs = self.x_train
-
-        print(inputs.shape)
         tolerance: float = 1e-8
         count_training_examples = inputs.shape[1]
-        
         for e in range(self.epochs):
+            print(f"Epoch {e+1}")
             indices = np.random.permutation(count_training_examples)
             for start in range(0, count_training_examples, self.batch_size):
                 end = start + self.batch_size
                 batch_indices = indices[start:end]
-
-                x_batch = self.x_train[:, batch_indices]
-                y_batch = self.y_train[:, batch_indices]
+                print("Batch indices:")
+                print(batch_indices)
+                # x_batch = self.x_train[:, batch_indices]
+                # y_batch = self.y_train[:, batch_indices]
 
                 # print(x_batch)
 
                 # print(y_batch)
 
-                outputs = self.network.feedforward(x_batch)
+                # print(x_batch)
 
-                cost = self.loss_function(y_batch, outputs)
+                # print(y_batch)
 
-                self.network.backpropagation(x_batch, outputs, y_batch, self.learning_rate)
+                # outputs = self.network.feedforward(x_batch)
 
-                if e % 100 == 0 and e == 0:
-                    self.train_loss_history.append(cost)
+                # cost = self.loss_function(y_batch, outputs)
 
-            print(f"epoch {e+1}/{self.epochs} - loss: {cost:2.4f} - val_loss: {0}")
+                # self.network.backpropagation(x_batch, outputs, y_batch, self.learning_rate)
+
+                # if e % 100 == 0 and e == 0:
+                #     self.train_loss_history.append(cost)
+
+            # print(f"epoch {e+1}/{self.epochs} - loss: {cost:2.4f} - val_loss: {0}")

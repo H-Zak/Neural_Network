@@ -18,9 +18,9 @@ def main():
                       data_train=data_loader.get_train_data(),
                       data_valid=data_loader.get_test_data(),
                       loss_function=binary_cross_entropy, 
-                      learning_rate=0.1, 
-                      batch_size=16,
-                      epochs=1000)
+                      learning_rate=0.01, 
+                      batch_size=8,
+                      epochs=1)
 		# Start the training
 		model.train()
 	except ValueError as e:
