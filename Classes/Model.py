@@ -69,24 +69,20 @@ class Model():
                 batch_indices = indices[start:end]
                 print("Batch indices:")
                 print(batch_indices)
-                # x_batch = self.x_train[:, batch_indices]
-                # y_batch = self.y_train[:, batch_indices]
+                x_batch = self.x_train[:, batch_indices]
+                y_batch = self.y_train[:, batch_indices]
+                print(x_batch.shape)
+                print(y_batch.shape)
 
-                # print(x_batch)
+                outputs = self.network.feedforward(x_batch)
 
-                # print(y_batch)
+                cost = self.loss_function(y_batch, outputs)
 
-                # print(x_batch)
+                self.network.backpropagation(x_batch, outputs, y_batch, self.learning_rate)
 
-                # print(y_batch)
+                if e % 100 == 0 and e == 0:
+                    self.train_loss_history.append(cost)
 
-                # outputs = self.network.feedforward(x_batch)
+                print(f"epoch {e+1}/{self.epochs} - loss: {cost:2.4f} - val_loss: {0}")
 
-                # cost = self.loss_function(y_batch, outputs)
-
-                # self.network.backpropagation(x_batch, outputs, y_batch, self.learning_rate)
-
-                # if e % 100 == 0 and e == 0:
-                #     self.train_loss_history.append(cost)
-
-            # print(f"epoch {e+1}/{self.epochs} - loss: {cost:2.4f} - val_loss: {0}")
+                break

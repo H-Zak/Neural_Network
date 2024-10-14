@@ -10,7 +10,7 @@ from modules.loss_function import binary_cross_entropy
 
 def main():
 	try:
-		data_loader = DatasetLoader("./dataset/data_cancer.csv")
+		data_loader = DatasetLoader("./dataset/data_test.csv")
 
 		neural_network = NeuralNetwork(input_shape=data_loader.get_input_shape(), hidden_layers=[24, 24], output_shape=1)
 
