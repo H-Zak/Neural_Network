@@ -12,3 +12,5 @@ un meilleur interface que le terminal est il possible ?
 
 
 verifier que la taille du batch n'est pas superieur a l'echantillon
+
+est ce que j'enregistre les poids ?

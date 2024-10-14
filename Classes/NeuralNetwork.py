@@ -2,7 +2,7 @@ import numpy as np
 
 class NeuralNetwork():
 	def __init__(self, layers): #layers = [1,10,10,1]
-		print("Start Class NeuralNetork")
+
 		# Iniatialise un reseau de neurones.
 		# :param layers : liste contenant le nombre de neuronnes dans chaque layers
 		if not isinstance(layers,(tuple, list)):
@@ -21,7 +21,7 @@ class NeuralNetwork():
 		self.pred_train = []
 
 	def initialise_value(self):
-		print("initialize !!!")
+
 		for i in range(1, len(self.layers)):
 			weight_matrix = np.random.randn(self.layers[i], self.layers[i - 1])
 			biais_matrix = np.zeros((self.layers[i], 1))
@@ -69,13 +69,16 @@ class NeuralNetwork():
 		m = X.shape[1]
 		dW = [None] * len(self.weight)
 		db = [None] * len(self.biais)
-		dA = activation[-1] - Y 
+		dA = activation[-1] - Y
+
 		for i in reversed(range(len(self.weight))):
 			if i == len(self.weight) - 1:
 				dZ = dA * self.sigmoid_derivative(Zs[i])
+		
 			else :
 				dZ = dA * self.relu_derivative(Zs[i])
 			dW[i] = 1/m * np.dot(dZ, activation[i].T) #la derive de A est dans la derive de Z
+			
 			db[i] = (1/m) * np.sum(dZ, axis=1, keepdims=True)
 			if i > 0:
 				dA = np.dot(self.weight[i].T, dZ)

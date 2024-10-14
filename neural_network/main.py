@@ -155,7 +155,15 @@ def main():
     while True:
         # Demande à l'utilisateur de saisir les hyperparamètres
         try:
-            layers, epochs, learning_rate, use_mini_batch, batch_size = input_parsing()
+            result = input_parsing()
+            if result is None:
+                print("L'utilisateur a quitté l'application.")
+                break
+            else:
+                layers, epochs, learning_rate, use_mini_batch, batch_size = result
+            # layers, epochs, learning_rate, use_mini_batch, batch_size = input_parsing()
+            # if not layers or not epochs or not learning_rate or not use_mini_batch or not batch_size:
+                # break
         except ValueError:
             print("Veuillez entrer des valeurs valides.")
             continue
