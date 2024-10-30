@@ -1,6 +1,29 @@
+Your neural network implementation must contain at least two hidden layers by
+default.
+
+You must also implement the softmax function on the output layer in order to
+obtain the output as a probabilistic distribution.
+
+For the separate program you are allowed to use a seed to obtain a repeatable
+result, because a lot of random factors come into play (the weights and bias
+initialization for example)
+
+
+MODIFIER LE Y IL DOIT CONTENIR LES 2 Probabilites 
+
 test unitaire a faire, a apprendre
+
+faire un scheme d'un ensemble de matrice
 
 NOTION SUR:
 	- comment creer une classe (en python et en C++)
 	- comment bien creer un projet et le structurer (package necessaire, creer une environnement virtuel, comment cela fonctionne)
 	- comment faire des tests unitaire
+
+
+un meilleur interface que le terminal est il possible ?
+
+
+verifier que la taille du batch n'est pas superieur a l'echantillon
+
+est ce que j'enregistre les poids ?
