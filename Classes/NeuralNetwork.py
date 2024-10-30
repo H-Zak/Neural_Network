@@ -45,42 +45,70 @@ class NeuralNetwork():
             self.activations.append(A)
         return A
     
+    # def backpropagation(self, inputs, outputs, Y, learning_rate):
+    #     m = inputs.shape[1]
+    #     # Derivative arrays
+    #     # dA = [None] * len(self.layers)
+    #     dW = [None] * len(self.layers)
+    #     db = [None] * len(self.layers)
+
+    #     # Derivative of binary_cross_entropy loss function
+    #     dA = outputs - Y
+    #     # print(dA.shape)
+
+    #     # print(len(self.Zs))
+    #     # print(len(self.activations))
+    #     for idx in reversed(range(0, len(self.layers), 1)):
+    #         # print(f"Layer {idx}")
+
+    #         # dL/dZ = dL/dA⋅softmax′(Z)
+    #         dZ = dA * self.layers[idx].derivative_activation_ft(self.Zs[idx])
+    #         # if idx == 0:
+    #         #     print(self.Zs[idx])
+
+    #         # Compute of the gradient with respect to the weights (dW) -> TODO -> See
+    #         dW[idx] = (1/m) * np.dot(dZ, self.activations[idx].T) # activation[1]
+    #         # Compute of the gradient with respect to the bias (db)
+    #         # axis=0 or 1 ? 
+    #         db[idx] = (1/m) * np.sum(dZ, axis=1, keepdims=True)
+            
+    #         # print(f" Weights {self.layers[idx].weights.shape}")
+    #         # print(f" Bias {self.layers[idx].bias.shape}")
+
+    #         self.layers[idx].weights = self.layers[idx].weights - learning_rate * dW[idx]
+    #         self.layers[idx].bias = self.layers[idx].bias - learning_rate * db[idx]
+            
+    #         # dA for the hidden layer
+    #         dA = np.dot(self.layers[idx].weights.T, dZ)
+
+
     def backpropagation(self, inputs, outputs, Y, learning_rate):
-        m = inputs.shape[1]
+        m = inputs.shape[1]  # Número de muestras en el batch
+        
         # Derivative arrays
-        # dA = [None] * len(self.layers)
         dW = [None] * len(self.layers)
         db = [None] * len(self.layers)
 
-
-        # print(outputs.shape)
-        # print(Y.shape)
-        # Derivative of binary_cross_entropy loss function
+        # Derivative of cross-entropy loss function for softmax (dA = softmax(outputs) - Y)
         dA = outputs - Y
-        # print(dA.shape)
-
-        # print(len(self.Zs))
-        # print(len(self.activations))
-        for idx in reversed(range(0, len(self.layers), 1)):
-            # print(f"Layer {idx}")
-
-            # dL/dZ = dL/dA⋅softmax′(Z)
-            dZ = dA * self.layers[idx].derivative_activation_ft(self.Zs[idx])
-            # if idx == 0:
-            #     print(self.Zs[idx])
-
-            # Compute of the gradient with respect to the weights (dW) -> TODO -> See
-            dW[idx] = (1/m) * np.dot(dZ, self.activations[idx].T) # activation[1]
-            # Compute of the gradient with respect to the bias (db)
-            # axis=0 or 1 ? 
+        
+        # Backpropagation loop (iterate over layers in reverse order)
+        for idx in reversed(range(0, len(self.layers))):
+            # If it's the ouput layer (softmax), dA is already
+            if idx == len(self.layers) - 1:
+                dZ = dA # (softmax - Y)
+            else:
+                dZ = dA * self.layers[idx].derivative_activation_ft(self.Zs[idx])
+            
+            # Compute gradient with respect to the weights (dW)
+            dW[idx] = (1/m) * np.dot(dZ, self.activations[idx].T)
+            # Compute gradient with respect to the bias (db)
             db[idx] = (1/m) * np.sum(dZ, axis=1, keepdims=True)
             
-            # print(f" Weights {self.layers[idx].weights.shape}")
-            # print(f" Bias {self.layers[idx].bias.shape}")
-
-            self.layers[idx].weights = self.layers[idx].weights - learning_rate * dW[idx]
-            self.layers[idx].bias = self.layers[idx].bias - learning_rate * db[idx]
+            # Update weights and biases
+            self.layers[idx].weights -= learning_rate * dW[idx]
+            self.layers[idx].bias -= learning_rate * db[idx]
             
-            # dA for the hidden layer
+            # # Propagate dA for the next layer (except for the last layer)
+            # if idx > 0:
             dA = np.dot(self.layers[idx].weights.T, dZ)
-

@@ -44,8 +44,20 @@ class HiddenLayer(Layer):
         return np.where(x > 0, 1, 0)
 
 class OutputLayer(Layer):
-    def __init__(self, input_shape, number_of_neurons, layer_type : str):
+    def __init__(self, input_shape, number_of_neurons, layer_type: str):
         super().__init__(input_shape, number_of_neurons, layer_type)
+
+    # Softmax activation function
+    def activation_ft(self, x):
+        exp_x = np.exp(x - np.max(x, axis=-1, keepdims=True))  # Numerically stable softmax
+        return exp_x / np.sum(exp_x, axis=-1, keepdims=True)  # Normalizes across classes
+
+    # Derivative of softmax combined with cross-entropy loss
+    # This simplifies the gradient calculation: softmax(output) - y_true
+    def derivative_activation_ft(self, output, y_true):
+        # y_true is a one-hot encoded vector
+        return output - y_true
+    
 
     # def call(self, inputs):
     #     # print(inputs)
@@ -59,12 +71,3 @@ class OutputLayer(Layer):
     #     # print(A)
     #     # print(A.shape)
     #     return A, Z
-
-    # Sigmoid
-    def activation_ft(self, x):
-        return 1 / (1 + np.exp(-x))
-
-    def derivative_activation_ft(self, output):
-        # The derivative of sigmoid function: σ'(x) = σ(x) * (1 - σ(x))
-        sig = self.activation_ft(output)
-        return sig * (1 - sig)

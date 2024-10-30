@@ -12,15 +12,15 @@ def main():
 	try:
 		data_loader = DatasetLoader("./dataset/data_test.csv")
 
-		neural_network = NeuralNetwork(input_shape=data_loader.get_input_shape(), hidden_layers=[24, 24], output_shape=1)
+		neural_network = NeuralNetwork(input_shape=data_loader.get_input_shape(), hidden_layers=[24, 24], output_shape=2)
 
 		model = Model(network=neural_network, 
                       data_train=data_loader.get_train_data(),
                       data_valid=data_loader.get_test_data(),
                       loss_function=binary_cross_entropy, 
-                      learning_rate=0.01, 
-                      batch_size=8,
-                      epochs=1)
+                      learning_rate=0.1, 
+                      batch_size=2,
+                      epochs=100)
 		# Start the training
 		model.train()
 	except ValueError as e:
