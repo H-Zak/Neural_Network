@@ -6,7 +6,8 @@ from Classes.DatasetLoader import DatasetLoader
 from Classes.Model import Model
 from Classes.NeuralNetwork import NeuralNetwork
 # Loss function
-from modules.loss_function import binary_cross_entropy
+# from modules.loss_function import binary_cross_entropy, cross_entropy_loss
+from modules.loss_function import cross_entropy_loss
 
 def main():
 	try:
@@ -17,14 +18,14 @@ def main():
 		model = Model(network=neural_network, 
                       data_train=data_loader.get_train_data(),
                       data_valid=data_loader.get_test_data(),
-                      loss_function=binary_cross_entropy, 
-                      learning_rate=0.1, 
-                      batch_size=2,
-                      epochs=100)
+                      loss_function=cross_entropy_loss, 
+                      learning_rate=0.23, 
+                      batch_size=8,
+                      epochs=10)
 		# Start the training
 		model.train()
-	except ValueError as e:
-		print(e)
+	# except ValueError as e:
+	# 	print(e)
 	except FileNotFoundError:
 		print('Failed to read the dataset')
 

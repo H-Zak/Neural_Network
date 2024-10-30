@@ -19,8 +19,6 @@ class DatasetLoader():
 		# # self.y_train = data_train[1].reshape(1, -1)
 		
 		x_train, x_test, y_train, y_test = train_test_split(self.x, self.y, test_size=0.2, random_state=42)
-
-		print(f"All examples shape {self.x.shape}")
 		scaler = StandardScaler()
 
 		self.x_train = scaler.fit_transform(x_train.T) 
@@ -31,8 +29,23 @@ class DatasetLoader():
 		self.y_train = y_train.map({'M': 1, 'B': 0}).to_numpy().reshape(1, -1)
 		self.y_test = y_test.map({'M': 1, 'B': 0}).to_numpy().reshape(1, -1)
 		
-		print(self.x_train.shape)
-		print(self.y_train.shape)
+		self.y_train_hot_encoding = self.one_hot_encoding(self.y_train, num_classes=2)
+		# print("Input layer")
+		# print(self.x_train.shape)
+		# print("y train:")
+		# print(self.y_train_hot_encoding.shape)
+
+	def one_hot_encoding(self, y, num_classes):
+		"""
+		Converts a 1D array of labels to one-hot encoded format.
+		Args:
+		y (np.ndarray): Array of labels (shape: [1, batch_size]).
+		num_classes (int): Number of output classes (for binary classification, this is 2).
+		
+		Returns:
+		np.ndarray: One-hot encoded labels (shape: [num_classes, batch_size]).
+		"""
+		return np.eye(num_classes)[y.reshape(-1)].T
 
 	def get_input_shape(self) -> int:
 		return self.x_train.shape[0]
