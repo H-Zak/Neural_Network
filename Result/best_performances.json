@@ -41,6 +41,19 @@
     },
     {
         "epochs": 10000,
+        "learning_rate": 0.1,
+        "batch_size": 0,
+        "layers": [
+            31,
+            10,
+            1
+        ],
+        "accuracy": 96.49122807017544,
+        "costs": 0.101855,
+        "validation_cost": 0.180788
+    },
+    {
+        "epochs": 10000,
         "learning_rate": 0.01,
         "batch_size": 0,
         "layers": [
@@ -181,5 +194,19 @@
         "accuracy": 59.64912280701754,
         "costs": 1.88295,
         "validation_cost": 2.111729
+    },
+    {
+        "epochs": 10000,
+        "learning_rate": 0.1,
+        "batch_size": 0,
+        "layers": [
+            31,
+            24,
+            24,
+            1
+        ],
+        "accuracy": 59.64912280701754,
+        "costs": 8.359196,
+        "validation_cost": 9.291147
     }
 ]
