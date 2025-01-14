@@ -11,7 +11,7 @@ all: install run
 re: clean-env all
 
 .PHONY: lab
-lab:
+lab: install
 	@$(PYTHON) -m lab.main
 
 .PHONY: run
