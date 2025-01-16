@@ -13,10 +13,10 @@ data = pd.read_csv("./dataset/data_cancer.csv")
 m, n = data.shape
   
 def init_params():
-    W1 = np.random.rand(10, 455) - 0.5
-    b1 = np.random.rand(10, 1) - 0.5
-    W2 = np.random.rand(10, 10) - 0.5
-    b2 = np.random.rand(10, 1) - 0.5
+    W1 = np.random.rand(24, 30) - 0.5
+    b1 = np.random.rand(24, 1) - 0.5
+    W2 = np.random.rand(2, 24) - 0.5
+    b2 = np.random.rand(2, 1) - 0.5
     return W1, b1, W2, b2
 
 def ReLU(Z):
@@ -65,23 +65,23 @@ def get_predictions(A2):
     return np.argmax(A2, 0)
 
 def get_accuracy(predictions, Y):
-    print(predictions, Y)
+    # print(predictions, Y)
     return np.sum(predictions == Y) / Y.size
 
 def gradient_descent(X, Y, alpha, iterations):
     W1, b1, W2, b2 = init_params()
     print(W1.shape)
     print(X.shape)
-    Z1, A1, Z2, A2 = forward_prop(W1, b1, W2, b2, X)
-    dW1, db1, dW2, db2 = backward_prop(Z1, A1, Z2, A2, W1, W2, X, Y)
-    # for i in range(iterations):
-    #     Z1, A1, Z2, A2 = forward_prop(W1, b1, W2, b2, X)
-    #     dW1, db1, dW2, db2 = backward_prop(Z1, A1, Z2, A2, W1, W2, X, Y)
-    #     W1, b1, W2, b2 = update_params(W1, b1, W2, b2, dW1, db1, dW2, db2, alpha)
-    #     if i % 10 == 0:
-    #         print("Iteration: ", i)
-    #         predictions = get_predictions(A2)
-    #         print(get_accuracy(predictions, Y))
+    # Z1, A1, Z2, A2 = forward_prop(W1, b1, W2, b2, X)
+    # dW1, db1, dW2, db2 = backward_prop(Z1, A1, Z2, A2, W1, W2, X, Y)
+    for i in range(iterations):
+        Z1, A1, Z2, A2 = forward_prop(W1, b1, W2, b2, X)
+        dW1, db1, dW2, db2 = backward_prop(Z1, A1, Z2, A2, W1, W2, X, Y)
+        W1, b1, W2, b2 = update_params(W1, b1, W2, b2, dW1, db1, dW2, db2, alpha)
+        if i % 10 == 0:
+            print("Iteration: ", i)
+            predictions = get_predictions(A2)
+            print(get_accuracy(predictions, Y))
     return W1, b1, W2, b2
 
 def main():
@@ -94,10 +94,10 @@ def main():
 		scaler = StandardScaler()
 
 		alpha = 0.1
-		X_test = scaler.fit_transform(X[0:113])
+		X_test = scaler.fit_transform(X[0:113].T)
 		Y_test = Y[0:113]
 
-		X_train = scaler.fit_transform(X[113:])
+		X_train = scaler.fit_transform(X[113:].T)
 		Y_train = Y[113:]
 		
 		W1, b1, W2, b2 = gradient_descent(X_train, Y_train, alpha, 500)
