@@ -7,15 +7,15 @@ from Classes.DatasetLoader import DatasetLoader
 from Classes.Model import Model
 from Classes.NeuralNetwork import NeuralNetwork
 # Loss function
-# from modules.loss_function import binary_cross_entropy
+from modules.loss_function import binary_cross_entropy
 
 data = pd.read_csv("./dataset/data_cancer.csv")
 m, n = data.shape
   
 def init_params():
-    W1 = np.random.rand(24, 30) - 0.5
-    b1 = np.random.rand(24, 1) - 0.5
-    W2 = np.random.rand(2, 24) - 0.5
+    W1 = np.random.rand(10, 30) - 0.5
+    b1 = np.random.rand(10, 1) - 0.5
+    W2 = np.random.rand(2, 10) - 0.5
     b2 = np.random.rand(2, 1) - 0.5
     return W1, b1, W2, b2
 
@@ -44,6 +44,7 @@ def one_hot(Y):
 
 def backward_prop(Z1, A1, Z2, A2, W1, W2, X, Y):
     one_hot_Y = one_hot(Y)
+    # dA
     dZ2 = A2 - one_hot_Y
     dW2 = 1 / m * dZ2.dot(A1.T)
     db2 = 1 / m * np.sum(dZ2)
@@ -86,39 +87,38 @@ def gradient_descent(X, Y, alpha, iterations):
 
 def main():
 	try:
-		data = pd.read_csv("./dataset/data_cancer.csv")
-		m, n = data.shape
-		X = data.drop([data.columns[0], data.columns[1]], axis=1)
-		Y = data.iloc[:, 1].map({'M': 1, 'B': 0}).to_numpy()
+		# data = pd.read_csv("./dataset/data_cancer.csv")
+		# m, n = data.shape
+		# X = data.drop([data.columns[0], data.columns[1]], axis=1)
+		# Y = data.iloc[:, 1].map({'M': 1, 'B': 0}).to_numpy()
 
-		scaler = StandardScaler()
+		# scaler = StandardScaler()
 
-		alpha = 0.1
-		X_test = scaler.fit_transform(X[0:113].T)
-		Y_test = Y[0:113]
+		# alpha = 0.1
+		# X_test = scaler.fit_transform(X[0:113].T)
+		# Y_test = Y[0:113]
 
-		X_train = scaler.fit_transform(X[113:].T)
-		Y_train = Y[113:]
+		# X_train = scaler.fit_transform(X[113:].T)
+		# Y_train = Y[113:]
 		
-		W1, b1, W2, b2 = gradient_descent(X_train, Y_train, alpha, 500)
+		# W1, b1, W2, b2 = gradient_descent(X_train, Y_train, alpha, 500)
 
 
-		# data_loader = DatasetLoader("./dataset/data_cancer.csv")
+		data_loader = DatasetLoader("./dataset/data_cancer.csv")
 
-		# print(y_train.shape)
-		# neural_network = NeuralNetwork(input_shape=x_train.shape[0], hidden_layers=[24, 24, 24], output_shape=1)
-		# # Initialize model
-		# model = Model(network=neural_network, 
-        #               data_train=(x_train, y_train),
-        #               data_valid=([], []),
-        #               loss_function=binary_cross_entropy, 
-        #               learning_rate=0.1, 
-        #               batch_size=2,
-        #               epochs=5000)
-		# # Start the training
-		# model.train()
-	# except ValueError as e:
-	# 	print(e)
+		neural_network = NeuralNetwork(input_shape=data_loader.x_train.shape[0], hidden_layers=[12], output_shape=2)
+		# Initialize model
+		model = Model(network=neural_network, 
+                      data_train=(data_loader.x_train, data_loader.y_train),
+                      data_valid=([], []),
+                      loss_function=binary_cross_entropy, 
+                      learning_rate=0.001, 
+                      batch_size=2,
+                      epochs=1000)
+		# Start the training
+		model.train()
+	except ValueError as e:
+		print(e)
 	except FileNotFoundError:
 		print('Failed to read the dataset')
 

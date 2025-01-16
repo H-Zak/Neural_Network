@@ -43,6 +43,8 @@ class Model():
         # Training and validation data
         self.x_train = data_train[0]
         self.y_train = self.one_hot_encoding(data_train[1])
+        # self.y_train_toto = self.one_hot_encoding(data_train[1])
+        # print(self.y_train_toto)
 
         self.data_train = data_train
         self.data_valid = data_valid
@@ -74,6 +76,19 @@ class Model():
     def train(self):
         inputs =  self.x_train
         tolerance : float = 1e-8
+        # outputs = self.network.feedforward(inputs)
+        # print(outputs.shape)
+        # # print(outputs)
+        # cost = self.loss_function(self.y_train, outputs)
+        # print(cost)
+        # self.network.backpropagation(inputs, outputs, self.y_train, self.learning_rate)
+        
+        # outputs = self.network.feedforward(inputs)
+        # print(outputs.shape)
+        # # print(outputs)
+        # cost = self.loss_function(self.y_train, outputs)
+        # print(cost)
+        # self.network.backpropagation(inputs, outputs, self.y_train, self.learning_rate)
         for e in range(self.epochs):
             outputs = self.network.feedforward(inputs)
             cost = self.loss_function(self.y_train, outputs)

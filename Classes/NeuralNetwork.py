@@ -15,15 +15,15 @@ class NeuralNetwork():
         for i, layer_size in enumerate(hidden_layers):
             # print(f"Hidden layer of {layer_size} neurons")
             self.layers.append(HiddenLayer(prev_shape, layer_size, f'hidden {i+1}'))
-            prev_shape = layer_size 
+            prev_shape = layer_size
 
             # print("Weights shape:")
             # print(self.layers[i].weights.shape)
-            # print(self.layers[i].weights)
+            # # print(self.layers[i].weights)
             # print("Bias shape:")
             # print(self.layers[i].bias.shape)
 
-        # print(f"Output layer of {output_shape} neurons")
+        # # print(f"Output layer of {output_shape} neurons")
         self.layers.append(OutputLayer(prev_shape, output_shape, f'output'))
         # print("Weights shape (output layer):")
         # print(self.layers[-1].weights.shape)
@@ -40,8 +40,19 @@ class NeuralNetwork():
         m = inputs.shape[1]
         # Derivative of loss function
         dA = outputs - Y
+        
+        # # Output layer
+        # dZ = self.layers[-1].backward(dA, m)
+        # dW, db = self.layers[-1].get_gradients()
+        # self.layers[-1].update_parameters(dW, db, learning_rate)
+        # dA = dZ
+        # # Hidden layer
+        # dZ = self.layers[-2].backward(dA, m)
+        # dW, db = self.layers[-2].get_gradients()
+        # self.layers[-2].update_parameters(dW, db, learning_rate)
+        # dA = dZ
         for layer in reversed(self.layers):
-            dZ = layer.backward(dA)
+            dZ = layer.backward(dA, m)
             dW, db = layer.get_gradients()
             layer.update_parameters(dW, db, learning_rate)
             dA = dZ

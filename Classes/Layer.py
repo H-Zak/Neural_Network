@@ -4,13 +4,12 @@ from abc import ABC, abstractmethod
 
 class Layer(ABC):
     def __init__(self, input_shape: int, number_of_neurons: int, layer_type : str):
-        self.weights = np.random.randn(number_of_neurons, input_shape) 
-        self.bias = np.zeros((number_of_neurons, 1))
+        self.weights = np.random.rand(number_of_neurons, input_shape) - 0.5
+        self.bias = np.zeros((number_of_neurons, 1)) - 0.5
         # Save activation of the previous layer
         self.A_prev = None
         # Save pre-activation
         self.Z = None
-
         # debug
         self.layer_type = layer_type
 
@@ -26,7 +25,7 @@ class Layer(ABC):
         self.bias -= learning_rate * db
 
     @abstractmethod
-    def backward(self, dA: np.ndarray) -> np.ndarray:
+    def backward(self, dA: np.ndarray, m : int) -> np.ndarray:
         pass
     
     @abstractmethod
@@ -45,11 +44,12 @@ class HiddenLayer(Layer):
     def __init__(self, input_shape: int, number_of_neurons: int, layer_type : str):
         super().__init__(input_shape, number_of_neurons, layer_type)
     
-    def backward(self, dA: np.ndarray) -> np.ndarray:
+    
+    def backward(self, dA: np.ndarray, m : int) -> np.ndarray:
         # Compute dZ
         dZ = dA * self.derivative_activation_ft(self.Z)
-        self.dW = np.dot(dZ, self.A_prev.T)
-        self.db = np.sum(dZ, axis=1, keepdims=True)
+        self.dW = 1/m * np.dot(dZ, self.A_prev.T)
+        self.db = 1/m * np.sum(dZ, axis=1, keepdims=True)
         # Gradient of the previous layer ?  
         dA_prev = np.dot(self.weights.T, dZ)
         return dA_prev
@@ -70,10 +70,10 @@ class OutputLayer(Layer):
     def __init__(self, input_shape: int, number_of_neurons: int, layer_type : str):
         super().__init__(input_shape, number_of_neurons, layer_type)
 
-    def backward(self, dA) -> np.ndarray:
+    def backward(self, dA: np.ndarray, m : int) -> np.ndarray:
         dZ = dA
-        self.dW = np.dot(dZ, self.A_prev.T)
-        self.db = np.sum(dZ, axis=1, keepdims=True)
+        self.dW = 1 / m * np.dot(dZ, self.A_prev.T)
+        self.db = 1 / m * np.sum(dZ, axis=1, keepdims=True)
         dA_prev = np.dot(self.weights.T, dZ)
         return dA_prev
 
