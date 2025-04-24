@@ -47,40 +47,7 @@ Au cours de ce projet, les concepts et compétences suivants ont été explorés
 * Ensemble de tests unitaires pour valider les fonctions d'activation, de coût, d'initialisation et de sauvegarde/chargement.
 
 ## Structure du Projet
-My_project/
-│
-├── Classes/               # Contient les classes Python (MLP, Data)
-│   ├── init.py
-│   ├── MultilayerPerceptron.py
-│   └── data.py
-│
-├── dataset/               # Contient les fichiers de données
-│   ├── data_cancer.csv    # Dataset principal
-│   └── ...                # Autres fichiers CSV (ex: pour prédiction)
-│
-├── docs/                  # Documentation ou notes
-│   └── ...
-│
-├── neural_network/        # Logique principale et utilitaires
-│   ├── init.py
-│   ├── main.py            # Point d'entrée principal (modes train/predict)
-│   └── parsing.py         # Fonctions utilitaires (parsing input, sauvegarde figs...)
-│
-├── Result/                # Dossier où sont sauvegardés les résultats
-│   ├── best_performances.json # Historique des meilleures performances
-│   ├── last_model_weights.npz # Poids du dernier modèle entraîné
-│   ├── scaler.joblib          # Scaler sauvegardé
-│   └── epochs_...acc.../  # Sous-dossiers pour chaque meilleure performance
-│       ├── cost.png
-│       └── accuracy.png
-│
-├── test/                  # Contient les tests unitaires
-│   ├── init.py
-│   └── test.py
-│
-├── README.md              # Ce fichier
-├── requirement.txt        # Dépendances Python
-└── setup.py               # Métadonnées du projet (optionnel pour l'exécution)
+<pre> <code>```plaintext My_project/ ├── Classes/ │ ├── __init__.py │ ├── MultilayerPerceptron.py │ └── data.py ├── dataset/ │ ├── data_cancer.csv │ └── ... ├── docs/ │ └── ... ├── neural_network/ │ ├── __init__.py │ ├── main.py │ └── parsing.py ├── Result/ │ ├── best_performances.json │ ├── last_model_weights.npz │ ├── scaler.joblib │ └── epochs_...acc.../ │ ├── cost.png │ └── accuracy.png ├── test/ │ ├── __init__.py │ └── test.py ├── README.md ├── requirement.txt └── setup.py ```</code> </pre>
 
 ## Prérequis
 
