@@ -1,5 +1,5 @@
 # Ignorer les environnements virtuels
-venv/
+venv_neural/
 .env/
 
 # Ignorer les fichiers temporaires créés par l'éditeur
