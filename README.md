@@ -47,7 +47,7 @@ Au cours de ce projet, les concepts et compétences suivants ont été explorés
 * Ensemble de tests unitaires pour valider les fonctions d'activation, de coût, d'initialisation et de sauvegarde/chargement.
 
 ## Structure du Projet
-My_project/
+<pre> <code> My_project/
 │
 ├── Classes/               # Contient les classes Python (MLP, Data)
 │   ├── init.py
@@ -80,7 +80,8 @@ My_project/
 │
 ├── README.md              # Ce fichier
 ├── requirement.txt        # Dépendances Python
-└── setup.py               # Métadonnées du projet (optionnel pour l'exécution)
+└── setup.py               # Métadonnées du projet (optionnel pour l'exécution)</code> </pre>
+
 
 ## Prérequis
 
