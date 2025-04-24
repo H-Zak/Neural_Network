@@ -27,6 +27,48 @@
         "validation_cost": 0.0
     },
     {
+        "epochs": 10000,
+        "learning_rate": 0.01,
+        "batch_size": 0,
+        "layers": [
+            30,
+            31,
+            10,
+            2
+        ],
+        "accuracy": 100.0,
+        "costs": 0.006952,
+        "validation_cost": 0.005969
+    },
+    {
+        "epochs": 10000,
+        "learning_rate": 0.01,
+        "batch_size": 0,
+        "layers": [
+            30,
+            31,
+            10,
+            2
+        ],
+        "accuracy": 100.0,
+        "costs": 0.004956,
+        "validation_cost": 0.002924
+    },
+    {
+        "epochs": 10000,
+        "learning_rate": 0.01,
+        "batch_size": 0,
+        "layers": [
+            30,
+            31,
+            10,
+            2
+        ],
+        "accuracy": 100.0,
+        "costs": 0.003218,
+        "validation_cost": 0.032984
+    },
+    {
         "epochs": 50000,
         "learning_rate": 0.05,
         "batch_size": 0,
@@ -78,6 +120,20 @@
         "validation_cost": 0.172206
     },
     {
+        "epochs": 10000,
+        "learning_rate": 0.01,
+        "batch_size": 0,
+        "layers": [
+            30,
+            31,
+            10,
+            2
+        ],
+        "accuracy": 95.6140350877193,
+        "costs": 0.054291,
+        "validation_cost": 0.092939
+    },
+    {
         "epochs": 50000,
         "learning_rate": 0.01,
         "batch_size": 0,
@@ -102,6 +158,20 @@
         "accuracy": 94.73684210526315,
         "costs": 0.050228,
         "validation_cost": 0.14932
+    },
+    {
+        "epochs": 10000,
+        "learning_rate": 0.01,
+        "batch_size": 0,
+        "layers": [
+            30,
+            31,
+            10,
+            2
+        ],
+        "accuracy": 94.73684210526315,
+        "costs": 0.061402,
+        "validation_cost": 0.10834
     },
     {
         "epochs": 10000,

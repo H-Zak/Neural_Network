@@ -14,3 +14,4 @@ __pycache__/
 # Ignorer les fichiers de logs
 *.log
 
+.qodo

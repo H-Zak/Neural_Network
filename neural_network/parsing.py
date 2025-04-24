@@ -35,11 +35,12 @@ def save_figure(neuronne, figure_name, graph_type='cost'):
         plt.title('Évolution du coût pendant l\'apprentissage')
     elif graph_type == 'accuracy':
         plt.plot(neuronne.pred_train, label='Train accuracy', color='blue')
-        plt.plot(neuronne.pred_test, label='Test accuracy', color='orange')
+        plt.plot(neuronne.pred_val, label='Validation accuracy', color='orange')
         plt.xlabel('Échantillons')
         plt.ylabel('Précision')
         plt.title('Évolution de la précision pendant l\'apprentissage')
     plt.legend()
+    os.makedirs(os.path.dirname(figure_name), exist_ok=True)
     plt.savefig(figure_name)
     plt.close()
 
@@ -72,7 +73,7 @@ def validate_non_negative_int(input_str, label):
     except ValueError:
         print(f"Erreur : {label} doit être un nombre entier non-négatif.")
         return None
-    
+
 def check_exit(user_input):
     if user_input.lower() == "exit":
         print("Fin du programme.")
@@ -127,7 +128,7 @@ def input_parsing():
             break
     use_mini_batch = batch_size > 0
     return layers, epochs, learning_rate, use_mini_batch, batch_size
-    
+
 def visualization(neuronne):
     root = tk.Tk()
     root.title("Navigation entre figures")
@@ -162,7 +163,7 @@ def plot_figure2(neuronne):
     fig.clear()
     ax = fig.add_subplot(111)
     ax.plot(neuronne.pred_train, label='Train acc', color='blue')
-    ax.plot(neuronne.pred_test, label='Test acc', color='orange')
+    ax.plot(neuronne.pred_val, label='Test acc', color='orange')
     ax.set_xlabel('Échantillons')
     ax.set_ylabel('Valeur')
     ax.set_title('Comparaison des valeurs prédites et vraies')
