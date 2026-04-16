@@ -37,6 +37,10 @@ clean-venv:
 update-requirements: $(VENV)/bin/activate
 	$(PIP) freeze > requirement.txt
 
+.PHONY: split
+split: $(VENV)/bin/activate
+	$(PYTHON) -m neural_network.main --mode split
+
 .PHONY: run
 run: $(VENV)/bin/activate
 	$(PYTHON) -m neural_network.main --mode train

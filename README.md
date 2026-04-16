@@ -9,24 +9,29 @@ Sujet 42 — Machine Learning project, version 5.1.
 ```bash
 make install
 
-# Entraînement (interactif : époques, learning rate, batch, couches)
+# 1. Séparer le dataset (80% train / 20% validation)
+python3 -m neural_network.main --mode split
+
+# 2. Entraîner (interactif : époques, learning rate, batch, couches, early stopping)
 python3 -m neural_network.main --mode train
 
-# Prédiction
+# 3. Prédire sur de nouvelles données
 python3 -m neural_network.main --mode predict --input dataset/data_test.csv
 python3 -m neural_network.main --mode predict --input dataset/data_cancer_1.csv
 ```
 
-Le CSV de prédiction peut être au format complet (ID + label + 30 features), avec ID seul, ou features seules — le format est détecté automatiquement.
+Le CSV de prédiction peut être au format complet (ID + label + 30 features), avec label seul, ou features seules — le format est détecté automatiquement. Si les labels sont présents, la binary cross-entropy et l'accuracy sont affichées.
 
 ## Architecture
 
 - Couches cachées configurables (minimum 2), activation sigmoid
 - Couche de sortie softmax (2 classes)
-- Loss : cross-entropy catégorielle
+- Loss : cross-entropy catégorielle (training) / binary cross-entropy (évaluation)
 - Optimisation : gradient descent (full-batch ou mini-batch)
 - Preprocessing : StandardScaler (fit sur train, transform sur validation/test)
 - Split : 80% train / 20% validation (stratifié)
+- Initialisation : Xavier (sqrt(1/n))
+- Early stopping avec patience configurable
 
 ## Structure
 
@@ -35,10 +40,10 @@ Le CSV de prédiction peut être au format complet (ID + label + 30 features), a
 │   ├── MultilayerPerceptron.py   # Réseau de neurones
 │   └── data.py                   # Chargement et preprocessing
 ├── neural_network/
-│   ├── main.py                   # Point d'entrée (train / predict)
+│   ├── main.py                   # Point d'entrée (split / train / predict)
 │   └── parsing.py                # Input utilisateur + graphes
 ├── test/
-│   └── test.py                   # Tests unitaires
+│   └── test.py                   # Tests unitaires (30 tests)
 ├── dataset/
 │   ├── data_cancer.csv           # Dataset principal (569 samples)
 │   ├── data_cancer_1.csv         # Données test (6 samples)
