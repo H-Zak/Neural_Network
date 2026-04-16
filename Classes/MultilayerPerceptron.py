@@ -161,7 +161,8 @@ class MultilayerPerceptron():
 			output, Zs, activation = self.forward_propagation(X)
 			self.backward_propagation(X, Y, Zs, activation, learning_rate)
 
-			cost = self.compute_cost(output, Y)
+			post_output, _, _ = self.forward_propagation(X)
+			cost = self.compute_cost(post_output, Y)
 			val_cost = self.function_valid_cost(x_val, y_val.T)
 			self.prediction_list(x_val, y_val.T, X, Y)
 			self.costs.append(cost)
