@@ -7,14 +7,14 @@
             16,
             2
         ],
-        "epochs_requested": 3000,
-        "epochs_ran": 3000,
+        "epochs_requested": 10000,
+        "epochs_ran": 10000,
         "lr": 0.01,
         "batch": 0,
         "patience": 0,
-        "accuracy": 96.49,
-        "final_cost": 0.116594,
-        "final_val_cost": 0.112287
+        "accuracy": 98.25,
+        "final_cost": 0.057575,
+        "final_val_cost": 0.065308
     },
     {
         "name": "2_wide",
@@ -24,14 +24,14 @@
             32,
             2
         ],
-        "epochs_requested": 3000,
-        "epochs_ran": 3000,
+        "epochs_requested": 10000,
+        "epochs_ran": 10000,
         "lr": 0.01,
         "batch": 0,
         "patience": 0,
-        "accuracy": 97.37,
-        "final_cost": 0.104868,
-        "final_val_cost": 0.097185
+        "accuracy": 98.25,
+        "final_cost": 0.059043,
+        "final_val_cost": 0.061476
     },
     {
         "name": "3_deep",
@@ -42,14 +42,14 @@
             8,
             2
         ],
-        "epochs_requested": 3000,
-        "epochs_ran": 3000,
+        "epochs_requested": 10000,
+        "epochs_ran": 10000,
         "lr": 0.01,
         "batch": 0,
         "patience": 0,
-        "accuracy": 92.11,
-        "final_cost": 0.383778,
-        "final_val_cost": 0.38092
+        "accuracy": 99.12,
+        "final_cost": 0.063688,
+        "final_val_cost": 0.060786
     },
     {
         "name": "4_minibatch",
@@ -59,14 +59,14 @@
             24,
             2
         ],
-        "epochs_requested": 3000,
-        "epochs_ran": 3000,
+        "epochs_requested": 10000,
+        "epochs_ran": 10000,
         "lr": 0.01,
         "batch": 32,
         "patience": 0,
-        "accuracy": 97.37,
-        "final_cost": 0.031904,
-        "final_val_cost": 0.077499
+        "accuracy": 98.25,
+        "final_cost": 0.003088,
+        "final_val_cost": 0.121008
     },
     {
         "name": "5_early_stopping",
@@ -76,14 +76,14 @@
             48,
             2
         ],
-        "epochs_requested": 10000,
-        "epochs_ran": 2225,
+        "epochs_requested": 50000,
+        "epochs_ran": 2625,
         "lr": 0.05,
         "batch": 0,
-        "patience": 100,
+        "patience": 500,
         "accuracy": 98.25,
-        "final_cost": 0.056199,
-        "final_val_cost": 0.061846
+        "final_cost": 0.053557,
+        "final_val_cost": 0.062567
     },
     {
         "name": "6_best_score",
@@ -94,14 +94,14 @@
             16,
             2
         ],
-        "epochs_requested": 5000,
-        "epochs_ran": 5000,
+        "epochs_requested": 15000,
+        "epochs_ran": 14557,
         "lr": 0.01,
         "batch": 0,
-        "patience": 200,
-        "accuracy": 97.37,
-        "final_cost": 0.107701,
-        "final_val_cost": 0.100695
+        "patience": 1000,
+        "accuracy": 98.25,
+        "final_cost": 0.052952,
+        "final_val_cost": 0.059366
     },
     {
         "name": "7_high_lr",
@@ -111,14 +111,14 @@
             24,
             2
         ],
-        "epochs_requested": 3000,
-        "epochs_ran": 3000,
+        "epochs_requested": 5000,
+        "epochs_ran": 5000,
         "lr": 0.5,
         "batch": 0,
         "patience": 0,
         "accuracy": 98.25,
-        "final_cost": 0.003105,
-        "final_val_cost": 0.120987
+        "final_cost": 0.001035,
+        "final_val_cost": 0.141716
     },
     {
         "name": "8_best_found",
@@ -129,13 +129,13 @@
             8,
             2
         ],
-        "epochs_requested": 5000,
-        "epochs_ran": 5000,
+        "epochs_requested": 15000,
+        "epochs_ran": 15000,
         "lr": 0.01,
         "batch": 0,
         "patience": 0,
-        "accuracy": 97.37,
-        "final_cost": 0.131431,
-        "final_val_cost": 0.118755
+        "accuracy": 99.12,
+        "final_cost": 0.052813,
+        "final_val_cost": 0.059057
     }
 ]

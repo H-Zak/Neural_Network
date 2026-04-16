@@ -4,14 +4,14 @@
 
 | # | Config | Architecture | LR | Batch | Epoques | Accuracy | Observation |
 |---|--------|-------------|-----|-------|---------|----------|-------------|
-| 1 | Minimal | [30,16,16,2] | 0.01 | full | 3000 | 96.49% | Baseline |
-| 2 | Large | [30,64,32,2] | 0.01 | full | 3000 | 97.37% | Plus de neurones != beaucoup mieux |
-| 3 | Profond | [30,32,16,8,2] | 0.01 | full | 3000 | 92.11% | Converge lentement, paliers visibles |
-| 4 | Mini-batch | [30,24,24,2] | 0.01 | 32 | 3000 | 97.37% | Overfitting visible |
-| 5 | Early stop | [30,48,48,2] | 0.05 | full | 2225/10000 | **98.25%** | Arret auto a 2225 |
-| 6 | Best score | [30,32,32,16,2] | 0.01 | full | 5000 | 97.37% | Architecture profonde |
-| 7 | LR eleve | [30,24,24,2] | 0.5 | full | 3000 | 98.25% | Overfitting severe |
-| 8 | Optimal | [30,32,16,8,2] | 0.01 | full | 5000 | 97.37% | Config retenue |
+| 1 | Minimal | [30,16,16,2] | 0.01 | full | 10000 | 98.25% | Baseline |
+| 2 | Large | [30,64,32,2] | 0.01 | full | 10000 | 98.25% | Plus de neurones != meilleur |
+| 3 | Profond | [30,32,16,8,2] | 0.01 | full | 10000 | **99.12%** | Meilleur score |
+| 4 | Mini-batch | [30,24,24,2] | 0.01 | 32 | 10000 | 98.25% | Overfitting visible |
+| 5 | Early stop | [30,48,48,2] | 0.05 | full | 2625/50000 | 98.25% | Arret auto a 2625 |
+| 6 | Best score | [30,32,32,16,2] | 0.01 | full | 14557/15000 | 98.25% | Early stop a 14557 |
+| 7 | LR eleve | [30,24,24,2] | 0.5 | full | 5000 | 98.25% | Overfitting severe |
+| 8 | Optimal | [30,32,16,8,2] | 0.01 | full | 15000 | **99.12%** | Config retenue |
 
 ---
 
