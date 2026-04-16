@@ -1,0 +1,130 @@
+[
+    {
+        "name": "1_minimal",
+        "desc": "R\u00e9seau minimal \u2014 2 couches cach\u00e9es petites",
+        "layers": [
+            30,
+            16,
+            16,
+            2
+        ],
+        "epochs_requested": 5000,
+        "epochs_ran": 5000,
+        "lr": 0.01,
+        "batch": 0,
+        "patience": 0,
+        "accuracy": 98.25,
+        "final_cost": 0.078844,
+        "final_val_cost": 0.078969
+    },
+    {
+        "name": "2_wide",
+        "desc": "R\u00e9seau large \u2014 plus de neurones par couche",
+        "layers": [
+            30,
+            64,
+            32,
+            2
+        ],
+        "epochs_requested": 10000,
+        "epochs_ran": 10000,
+        "lr": 0.01,
+        "batch": 0,
+        "patience": 0,
+        "accuracy": 98.25,
+        "final_cost": 0.059235,
+        "final_val_cost": 0.061534
+    },
+    {
+        "name": "3_deep",
+        "desc": "R\u00e9seau profond \u2014 3 couches cach\u00e9es d\u00e9croissantes",
+        "layers": [
+            30,
+            32,
+            16,
+            8,
+            2
+        ],
+        "epochs_requested": 10000,
+        "epochs_ran": 10000,
+        "lr": 0.01,
+        "batch": 0,
+        "patience": 0,
+        "accuracy": 99.12,
+        "final_cost": 0.064046,
+        "final_val_cost": 0.060981
+    },
+    {
+        "name": "4_minibatch",
+        "desc": "Mini-batch SGD \u2014 batch de 32 \u00e9chantillons",
+        "layers": [
+            30,
+            24,
+            24,
+            2
+        ],
+        "epochs_requested": 10000,
+        "epochs_ran": 10000,
+        "lr": 0.01,
+        "batch": 32,
+        "patience": 0,
+        "accuracy": 98.25,
+        "final_cost": 0.00316,
+        "final_val_cost": 0.120389
+    },
+    {
+        "name": "5_early_stopping",
+        "desc": "Early stopping \u2014 arr\u00eat automatique quand le mod\u00e8le sur-apprend",
+        "layers": [
+            30,
+            48,
+            48,
+            2
+        ],
+        "epochs_requested": 50000,
+        "epochs_ran": 3200,
+        "lr": 0.05,
+        "batch": 0,
+        "patience": 10,
+        "accuracy": 98.25,
+        "final_cost": 0.051045,
+        "final_val_cost": 0.064316
+    },
+    {
+        "name": "6_best_score",
+        "desc": "Meilleur score \u2014 architecture optimis\u00e9e, long training, early stopping",
+        "layers": [
+            30,
+            32,
+            32,
+            16,
+            2
+        ],
+        "epochs_requested": 20000,
+        "epochs_ran": 16700,
+        "lr": 0.01,
+        "batch": 0,
+        "patience": 30,
+        "accuracy": 98.25,
+        "final_cost": 0.05042,
+        "final_val_cost": 0.060421
+    },
+    {
+        "name": "7_high_lr",
+        "desc": "Learning rate \u00e9lev\u00e9 \u2014 montre l'instabilit\u00e9 quand lr est trop grand",
+        "layers": [
+            30,
+            24,
+            24,
+            2
+        ],
+        "epochs_requested": 5000,
+        "epochs_ran": 5000,
+        "lr": 0.5,
+        "batch": 0,
+        "patience": 0,
+        "accuracy": 98.25,
+        "final_cost": 0.001077,
+        "final_val_cost": 0.141003
+    }
+]

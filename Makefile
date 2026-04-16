@@ -39,4 +39,4 @@ update-requirements: $(VENV)/bin/activate
 
 .PHONY: run
 run: $(VENV)/bin/activate
-	$(PYTHON) -m neural_network.main
+	$(PYTHON) -m neural_network.main --mode train
