@@ -124,12 +124,9 @@ def run_training():
 
             neuronne.save_weights(os.path.join("Result", "last_model_weights.npz"))
 
-            if sys.platform != 'darwin':
-                try:
-                    visualization(neuronne)
-                except Exception:
-                    print("Graphiques sauvegardés dans Result/.")
-            else:
+            try:
+                visualization(neuronne)
+            except Exception:
                 print("Graphiques sauvegardés dans Result/.")
 
             if input("Relancer un entraînement ? (o/n) : ").lower() != 'o':

@@ -59,6 +59,11 @@ class TestActivationFunctions(unittest.TestCase):
         np.testing.assert_almost_equal(np.sum(output, axis=0), np.array([1.0, 1.0]))
         self.assertTrue(np.array_equal(np.argmax(output, axis=0), np.array([2, 0])))
 
+    def test_softmax_extreme_values_no_nan(self):
+        output = self.network.softmax(np.array([[1000, 0], [0, 0]]))
+        self.assertFalse(np.any(np.isnan(output)))
+        np.testing.assert_almost_equal(np.sum(output, axis=0), np.array([1.0, 1.0]))
+
 
 class TestCostFunction(unittest.TestCase):
 
@@ -243,10 +248,10 @@ class TestEarlyStopping(unittest.TestCase):
         X = np.array([[0, 1], [1, 0]])
         Y = np.array([[1, 0], [0, 1]])
 
-        network.train(X, Y, num_epochs=1000, learning_rate=0.1,
+        network.train(X, Y, num_epochs=100, learning_rate=0.1,
                       x_val=X, y_val=Y, patience=0)
 
-        self.assertEqual(len(network.costs), 10)
+        self.assertEqual(len(network.costs), 100)
 
     def test_early_stopping_restores_best_weights(self):
         np.random.seed(0)

@@ -1,8 +1,7 @@
 import json
 import os
+import matplotlib
 import matplotlib.pyplot as plt
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-import tkinter as tk
 
 
 def save_best_performance(best_performance, folder_path):
@@ -28,13 +27,13 @@ def save_figure(neuronne, figure_name, graph_type='cost'):
     if graph_type == 'cost':
         plt.plot(neuronne.costs, label='Training cost', color='blue')
         plt.plot(neuronne.validation_cost, label='Validation cost', color='orange')
-        plt.xlabel('Époques (x100)')
+        plt.xlabel('Époques')
         plt.ylabel('Coût')
         plt.title('Évolution du coût')
     elif graph_type == 'accuracy':
         plt.plot(neuronne.pred_train, label='Training accuracy', color='blue')
         plt.plot(neuronne.pred_val, label='Validation accuracy', color='orange')
-        plt.xlabel('Époques (x100)')
+        plt.xlabel('Époques')
         plt.ylabel('Précision (%)')
         plt.title('Évolution de la précision')
     plt.legend()
@@ -137,37 +136,21 @@ def input_parsing():
 
 
 def visualization(neuronne):
-    root = tk.Tk()
-    root.title("Courbes d'apprentissage")
+    fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
 
-    fig = plt.Figure(figsize=(5, 4), dpi=100)
-    canvas = FigureCanvasTkAgg(fig, master=root)
-    canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
+    ax1.plot(neuronne.costs, label='Training cost', color='blue')
+    ax1.plot(neuronne.validation_cost, label='Validation cost', color='orange')
+    ax1.set_xlabel('Époques')
+    ax1.set_ylabel('Coût')
+    ax1.set_title('Évolution du coût')
+    ax1.legend()
 
-    def plot_cost():
-        fig.clear()
-        ax = fig.add_subplot(111)
-        ax.plot(neuronne.costs, label='Training cost', color='blue')
-        ax.plot(neuronne.validation_cost, label='Validation cost', color='orange')
-        ax.set_xlabel('Époques (x100)')
-        ax.set_ylabel('Coût')
-        ax.set_title('Évolution du coût')
-        ax.legend()
-        canvas.draw()
+    ax2.plot(neuronne.pred_train, label='Training accuracy', color='blue')
+    ax2.plot(neuronne.pred_val, label='Validation accuracy', color='orange')
+    ax2.set_xlabel('Époques')
+    ax2.set_ylabel('Précision (%)')
+    ax2.set_title('Évolution de la précision')
+    ax2.legend()
 
-    def plot_accuracy():
-        fig.clear()
-        ax = fig.add_subplot(111)
-        ax.plot(neuronne.pred_train, label='Training accuracy', color='blue')
-        ax.plot(neuronne.pred_val, label='Validation accuracy', color='orange')
-        ax.set_xlabel('Époques (x100)')
-        ax.set_ylabel('Précision (%)')
-        ax.set_title('Évolution de la précision')
-        ax.legend()
-        canvas.draw()
-
-    tk.Button(root, text="Cost", command=plot_cost).pack(side=tk.LEFT)
-    tk.Button(root, text="Accuracy", command=plot_accuracy).pack(side=tk.RIGHT)
-    plot_cost()
-
-    root.mainloop()
+    plt.tight_layout()
+    plt.show()

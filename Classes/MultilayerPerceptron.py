@@ -73,7 +73,7 @@ class MultilayerPerceptron():
 		return np.where(Z > 0, 1, 0)
 
 	def softmax(self, z):
-		exp_z = np.exp(z - np.max(z))
+		exp_z = np.exp(z - np.max(z, axis=0, keepdims=True))
 		return exp_z / np.sum(exp_z, axis=0, keepdims=True)
 
 	# --- Propagation ---
@@ -161,27 +161,26 @@ class MultilayerPerceptron():
 			output, Zs, activation = self.forward_propagation(X)
 			self.backward_propagation(X, Y, Zs, activation, learning_rate)
 
-			if epoch % 100 == 0:
-				cost = self.compute_cost(output, Y)
-				val_cost = self.function_valid_cost(x_val, y_val.T)
-				self.prediction_list(x_val, y_val.T, X, Y)
-				self.costs.append(cost)
-				self.validation_cost.append(val_cost)
-				print(f"Époque {epoch}: coût = {cost:.6f}, val_coût = {val_cost:.6f}")
+			cost = self.compute_cost(output, Y)
+			val_cost = self.function_valid_cost(x_val, y_val.T)
+			self.prediction_list(x_val, y_val.T, X, Y)
+			self.costs.append(cost)
+			self.validation_cost.append(val_cost)
+			print(f"epoch {epoch + 1}/{num_epochs} - loss: {cost:.4f} - val_loss: {val_cost:.4f}")
 
-				if patience > 0:
-					if val_cost < best_val_cost:
-						best_val_cost = val_cost
-						patience_counter = 0
-						best_weights = [w.copy() for w in self.weight]
-						best_biais = [b.copy() for b in self.biais]
-					else:
-						patience_counter += 1
-						if patience_counter >= patience:
-							print(f"Early stopping à l'époque {epoch} (patience={patience})")
-							self.weight = best_weights
-							self.biais = best_biais
-							break
+			if patience > 0:
+				if val_cost < best_val_cost:
+					best_val_cost = val_cost
+					patience_counter = 0
+					best_weights = [w.copy() for w in self.weight]
+					best_biais = [b.copy() for b in self.biais]
+				else:
+					patience_counter += 1
+					if patience_counter >= patience:
+						print(f"Early stopping à l'époque {epoch + 1} (patience={patience})")
+						self.weight = best_weights
+						self.biais = best_biais
+						break
 
 		return self.costs
 
@@ -221,27 +220,26 @@ class MultilayerPerceptron():
 				output, Zs, activation = self.forward_propagation(mini_batch_X)
 				self.backward_propagation(mini_batch_X, mini_batch_Y, Zs, activation, learning_rate)
 
-			if epoch % 100 == 0:
-				full_output, _, _ = self.forward_propagation(X)
-				cost = self.compute_cost(full_output, Y)
-				val_cost = self.function_valid_cost(x_val, y_val_T)
-				self.prediction_list(x_val, y_val_T, X, Y)
-				self.costs.append(cost)
-				self.validation_cost.append(val_cost)
-				print(f"Époque {epoch}: coût = {cost:.6f}, val_coût = {val_cost:.6f}")
+			full_output, _, _ = self.forward_propagation(X)
+			cost = self.compute_cost(full_output, Y)
+			val_cost = self.function_valid_cost(x_val, y_val_T)
+			self.prediction_list(x_val, y_val_T, X, Y)
+			self.costs.append(cost)
+			self.validation_cost.append(val_cost)
+			print(f"epoch {epoch + 1}/{num_epochs} - loss: {cost:.4f} - val_loss: {val_cost:.4f}")
 
-				if patience > 0:
-					if val_cost < best_val_cost:
-						best_val_cost = val_cost
-						patience_counter = 0
-						best_weights = [w.copy() for w in self.weight]
-						best_biais = [b.copy() for b in self.biais]
-					else:
-						patience_counter += 1
-						if patience_counter >= patience:
-							print(f"Early stopping à l'époque {epoch} (patience={patience})")
-							self.weight = best_weights
-							self.biais = best_biais
-							break
+			if patience > 0:
+				if val_cost < best_val_cost:
+					best_val_cost = val_cost
+					patience_counter = 0
+					best_weights = [w.copy() for w in self.weight]
+					best_biais = [b.copy() for b in self.biais]
+				else:
+					patience_counter += 1
+					if patience_counter >= patience:
+						print(f"Early stopping à l'époque {epoch + 1} (patience={patience})")
+						self.weight = best_weights
+						self.biais = best_biais
+						break
 
 		return self.costs
