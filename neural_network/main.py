@@ -37,10 +37,15 @@ def run_split(dataset_path):
     print(f"x_train shape : ({x_train_scaled.shape[0]}, {x_train_scaled.shape[1]})")
     print(f"x_valid shape : ({x_val_scaled.shape[0]}, {x_val_scaled.shape[1]})")
     print(f"Sauvegardé : dataset/data_training.csv, dataset/data_validation.csv")
-    print(f"Scaler sauvegardé : Result/scaler.joblib")
 
 
-def run_training():
+def parse_labels_column(col):
+    if col.dtype == object:
+        return col.map({'B': 0, 'M': 1}).values.astype(float)
+    return col.values.astype(float)
+
+
+def run_training(args):
     print("--- Mode Entraînement ---")
 
     if not os.path.exists("dataset/data_training.csv") or not os.path.exists("dataset/data_validation.csv"):
@@ -69,15 +74,29 @@ def run_training():
     best_accuracy = 0
     os.makedirs("Result", exist_ok=True)
 
+    # Si les hyperparamètres sont passés en CLI, un seul run
+    # Sinon, boucle interactive
+    cli_mode = args.layer is not None and args.epochs is not None
+
     while True:
         try:
-            result = input_parsing()
-            if result is None:
-                break
-            layers_hidden, epochs, learning_rate, use_mini_batch, batch_size, patience = result
+            if cli_mode:
+                layers_hidden = args.layer
+                epochs = args.epochs
+                learning_rate = args.learning_rate
+                batch_size = args.batch_size
+                patience = args.patience
+                use_mini_batch = batch_size > 0
+            else:
+                result = input_parsing()
+                if result is None:
+                    break
+                layers_hidden, epochs, learning_rate, use_mini_batch, batch_size, patience = result
 
             if use_mini_batch and batch_size > n_train:
                 print(f"Erreur : batch ({batch_size}) > échantillons ({n_train}).")
+                if cli_mode:
+                    break
                 continue
 
             full_layers = [n_x] + layers_hidden + [2]
@@ -120,20 +139,25 @@ def run_training():
                     "costs": round(neuronne.costs[-1], 6) if neuronne.costs else None,
                     "validation_cost": round(neuronne.validation_cost[-1], 6) if neuronne.validation_cost else None
                 }, folder_path)
-                print("Nouvelles meilleures performances enregistrées !")
 
             neuronne.save_weights(os.path.join("Result", "last_model_weights.npz"))
+            print(f"> saving model 'Result/last_model_weights.npz' to disk...")
 
             try:
                 visualization(neuronne)
             except Exception:
                 print("Graphiques sauvegardés dans Result/.")
 
+            if cli_mode:
+                break
+
             if input("Relancer un entraînement ? (o/n) : ").lower() != 'o':
                 break
 
         except ValueError as ve:
             print(f"Erreur : {ve}")
+            if cli_mode:
+                break
         except Exception as e:
             print(f"Erreur inattendue : {e}")
             import traceback
@@ -174,12 +198,10 @@ def run_prediction(weights_path, input_path):
         if n_cols == n_features:
             input_data_raw = input_df
         elif n_cols == n_features + 1:
-            # Première colonne = labels (0/1)
-            labels_col = input_df.iloc[:, 0].values
+            labels_col = parse_labels_column(input_df.iloc[:, 0])
             input_data_raw = input_df.iloc[:, 1:]
         elif n_cols == n_features + 2:
-            # Colonne 0 = ID, colonne 1 = label (M/B)
-            labels_col = input_df.iloc[:, 1].map({'B': 0, 'M': 1}).values
+            labels_col = parse_labels_column(input_df.iloc[:, 1])
             input_data_raw = input_df.iloc[:, 2:]
         else:
             print(f"Erreur : {n_cols} colonnes, {n_features} features attendues.")
@@ -198,9 +220,8 @@ def run_prediction(weights_path, input_path):
     results = pd.DataFrame({'Prediction': [label_map[i] for i in pred_indices]})
     print(results)
 
-    # Évaluation binary cross-entropy si les labels sont disponibles
-    if labels_col is not None:
-        p = output[1]  # probabilité de la classe M (maligne)
+    if labels_col is not None and not np.any(np.isnan(labels_col)):
+        p = output[1]
         y = labels_col
         epsilon = 1e-10
         p = np.clip(p, epsilon, 1 - epsilon)
@@ -218,12 +239,19 @@ def main():
     parser.add_argument('--weights', type=str, default="Result/last_model_weights.npz")
     parser.add_argument('--input', type=str)
 
+    # Arguments CLI pour le training (optionnels — sinon interactif)
+    parser.add_argument('--layer', type=int, nargs='+', help="Couches cachées (ex: --layer 24 24)")
+    parser.add_argument('--epochs', type=int, help="Nombre d'époques")
+    parser.add_argument('--learning_rate', type=float, default=0.01)
+    parser.add_argument('--batch_size', type=int, default=0)
+    parser.add_argument('--patience', type=int, default=0)
+
     args = parser.parse_args()
 
     if args.mode == 'split':
         run_split(args.dataset)
     elif args.mode == 'train':
-        run_training()
+        run_training(args)
     elif args.mode == 'predict':
         if not args.input:
             parser.error("--input est requis pour le mode 'predict'.")
